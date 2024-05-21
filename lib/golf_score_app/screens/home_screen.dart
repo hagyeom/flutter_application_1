@@ -7,34 +7,32 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: const Color(0xFFD0E8A0),
+      backgroundColor: Color(0xFFBFD98F),
+      body: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => GolfScoreScreen()), // 다른 페이지로 이동
+          );
+        },
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const Text(
-                'GOLF is My Life',
+                'GOLF\nis\nMy Life',
+                textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
+                  fontFamily: 'GILLUBCD',
+                  fontSize: 40,
+                  color: Colors.white,
                 ),
               ),
               const SizedBox(height: 20),
-              const Icon(
-                Icons.golf_course,
-                size: 100,
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const GolfScoreScreen()),
-                  );
-                },
-                child: const Text('로그인 화면으로 이동'),
+              Image.asset(
+                'assets/golficon.jpg', // 이미지 파일 경로
+                width: 77, // 이미지의 너비
+                height: 100, // 이미지의 높이
               ),
             ],
           ),
