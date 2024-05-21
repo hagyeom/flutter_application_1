@@ -6,4 +6,8 @@
 ![1](https://github.com/hagyeom/flutter_application_1/assets/116890147/9a38afb1-9ddf-4840-94ac-13a4f9c6a7aa)
 
 
+![2](https://github.com/hagyeom/flutter_application_1/assets/116890147/194c42bd-fdb5-413c-ad5a-16f31683e188)
+
+
+
 피그마:https://www.figma.com/design/Ip0wZuzak7FLFmzVWOOfOF/Golf?node-id=0-1&t=QznovIwjWaWYDKQG-0
