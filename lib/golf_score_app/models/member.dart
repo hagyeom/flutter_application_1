@@ -50,4 +50,17 @@ class Member {
       friends: List<String>.from(json['friends']),
     );
   }
+
+  void addFriend(String friendName) {
+    if (!friends.contains(friendName)) {
+      friends.add(friendName);
+    }
+  }
+
+  void updateRecord(int win, int loss, int draw) {
+    wins += win;
+    losses += loss;
+    draws += draw;
+    totalHoles = wins + losses + draws;
+  }
 }
