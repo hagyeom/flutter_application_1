@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/golf_score_app/screens/golf_score_screen.dart';
+import 'package:flutter_application_1/golf_score_app/screens/login_page_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -12,7 +12,7 @@ class HomeScreen extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => GolfScoreScreen()), // 다른 페이지로 이동
+            MaterialPageRoute(builder: (context) => LogInScreen()), // 다른 페이지로 이동
           );
         },
         child: Center(
