@@ -4,6 +4,7 @@
 */
 // 회원가입 3
 // 회원가입 2에서 이름과 전화번호를 입력받은 후, 다음 버튼을 누르면 넘어가는 페이지
+// sign_up_email_screen.dart
 import 'package:flutter/material.dart';
 import 'sign_up_password_screen.dart'; // Import the new screen
 
