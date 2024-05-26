@@ -5,11 +5,24 @@
 // 회원가입 4
 // 로그인에 사용할 비밀번호를 입력받는 회원가입 진행 페이지
 // sign_up_password_screen.dart
+// sign_up_password_screen.dart
+// sign_up_password_screen.dart
 import 'package:flutter/material.dart';
-import 'sign_up_complete_screen.dart'; // Import the sign up complete screen
+import 'package:flutter_application_1/golf_score_app/models/user.dart';
+import 'package:flutter_application_1/golf_score_app/models/user_repository.dart';
+import 'package:flutter_application_1/golf_score_app/screens/sign_up_complete_screen.dart';
 
 class SignUpPasswordScreen extends StatefulWidget {
-  const SignUpPasswordScreen({super.key});
+  final String name;
+  final String phoneNumber;
+  final String email;
+
+  const SignUpPasswordScreen({
+    super.key,
+    required this.name,
+    required this.phoneNumber,
+    required this.email,
+  });
 
   @override
   SignUpPasswordScreenState createState() => SignUpPasswordScreenState();
@@ -21,6 +34,44 @@ class SignUpPasswordScreenState extends State<SignUpPasswordScreen> {
       TextEditingController();
   bool isPasswordVisible = false;
   bool isConfirmPasswordVisible = false;
+
+  void _completeSignUp() {
+    if (passwordController.text == confirmPasswordController.text) {
+      User newUser = User(
+        name: widget.name,
+        phoneNumber: widget.phoneNumber,
+        email: widget.email,
+        password: passwordController.text,
+      );
+
+      // Save the user using UserRepository
+      UserRepository userRepository = UserRepository();
+      userRepository.addUser(newUser);
+
+      // Navigate to the complete screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SignUpCompleteScreen(),
+        ),
+      );
+    } else {
+      // Show error if passwords do not match
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Error'),
+          content: const Text('Passwords do not match'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,14 +141,7 @@ class SignUpPasswordScreenState extends State<SignUpPasswordScreen> {
             const SizedBox(height: 16.0),
             Center(
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SignUpCompleteScreen(),
-                    ),
-                  );
-                },
+                onPressed: _completeSignUp,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFCBD7B5), // Background color
                   minimumSize:

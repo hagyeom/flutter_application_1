@@ -1,146 +1,128 @@
+/*
+작성자: 윤하겸
+작성일: 2024-05-22
+*/
+// 마이 페이지
+// my_page_screen.dart
 import 'package:flutter/material.dart';
+import 'first_page.dart'; // FirstPage를 import
 
 class MyPageScreen extends StatelessWidget {
-  final String userName;
-
-  const MyPageScreen({super.key, required this.userName});
+  const MyPageScreen({super.key, required String userName});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('마이페이지'),
+        title: const Text('마이 페이지'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout),
+            icon: const Icon(Icons.more_vert),
             onPressed: () {
-              // 로그아웃 로직 추가
-              Navigator.pop(context);
+              // 추가 동작
             },
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(height: 20),
-              const CircleAvatar(
-                radius: 50,
-                backgroundImage: AssetImage('assets/profile.jpg'), // 프로필 이미지 경로
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: Icon(
-                    Icons.edit,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                userName,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black,
-                  backgroundColor: const Color(0xFFC5E1A5),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 100, vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                onPressed: () {
-                  // 경기하기 로직 추가
-                },
-                child: const Text('경기하기'),
-              ),
-              const SizedBox(height: 20),
-              GridView.count(
-                shrinkWrap: true,
-                crossAxisCount: 2,
-                childAspectRatio: 2,
-                children: <Widget>[
-                  Card(
-                    child: ListTile(
-                      leading: const Icon(Icons.local_taxi, color: Colors.blue),
-                      title: const Text('골프장 예약'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () {
-                        // 골프장 예약 로직 추가
-                      },
-                    ),
-                  ),
-                  Card(
-                    child: ListTile(
-                      leading: const Icon(Icons.wb_sunny, color: Colors.orange),
-                      title: const Text('오늘 날씨'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () {
-                        // 오늘 날씨 로직 추가
-                      },
-                    ),
-                  ),
-                  Card(
-                    child: ListTile(
-                      leading: const Icon(Icons.note, color: Colors.black),
-                      title: const Text('내 경기 기록'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () {
-                        // 내 경기 기록 로직 추가
-                      },
-                    ),
-                  ),
-                  Card(
-                    child: ListTile(
-                      leading: const Icon(Icons.group, color: Colors.black),
-                      title: const Text('친구 목록'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () {
-                        // 친구 목록 로직 추가
-                      },
-                    ),
-                  ),
-                  Card(
-                    child: ListTile(
-                      leading: const Icon(Icons.person, color: Colors.black),
-                      title: const Text('개인정보 관리'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () {
-                        // 개인정보 관리 로직 추가
-                      },
-                    ),
-                  ),
-                  Card(
-                    child: ListTile(
-                      leading: const Icon(Icons.settings, color: Colors.black),
-                      title: const Text('설정'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () {
-                        // 설정 로직 추가
-                      },
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              radius: 50,
+              backgroundImage:
+                  const AssetImage('assets/profile_image.jpg'), // 프로필 이미지
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: CircleAvatar(
+                      radius: 16,
+                      backgroundColor: Colors.white,
+                      child: IconButton(
+                        icon: const Icon(Icons.edit, size: 16),
+                        onPressed: () {
+                          // 프로필 이미지 편집
+                        },
+                      ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
-              TextButton(
-                onPressed: () {
-                  // 로그아웃 로직 추가
-                  Navigator.pop(context);
-                },
-                child: const Text('로그아웃'),
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              '홍길동',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                // 경기하기 버튼 동작
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFCBD7B5), // 배경색
+                minimumSize: const Size(double.infinity, 48), // 버튼 크기
               ),
-            ],
-          ),
+              child: const Text('경기하기'),
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: ListView(
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.history),
+                    title: const Text('내 경기 기록'),
+                    trailing: const Icon(Icons.arrow_forward),
+                    onTap: () {
+                      // 내 경기 기록 페이지로 이동
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.group),
+                    title: const Text('친구 목록'),
+                    trailing: const Icon(Icons.arrow_forward),
+                    onTap: () {
+                      // 친구 목록 페이지로 이동
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.person),
+                    title: const Text('개인정보 관리'),
+                    trailing: const Icon(Icons.arrow_forward),
+                    onTap: () {
+                      // 개인정보 관리 페이지로 이동
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.settings),
+                    title: const Text('설정'),
+                    trailing: const Icon(Icons.arrow_forward),
+                    onTap: () {
+                      // 설정 페이지로 이동
+                    },
+                  ),
+                ],
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                _logout(context);
+              },
+              child: const Text('로그아웃', style: TextStyle(color: Colors.black)),
+            ),
+          ],
         ),
       ),
+    );
+  }
+
+  void _logout(BuildContext context) {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const FirstPage()),
+      (Route<dynamic> route) => false,
     );
   }
 }

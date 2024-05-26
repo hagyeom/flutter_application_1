@@ -7,13 +7,20 @@
 import 'user.dart';
 
 class UserRepository {
-  static final List<User> _users = [];
+  static final UserRepository _instance = UserRepository._internal();
+  final List<User> _users = [];
+
+  factory UserRepository() {
+    return _instance;
+  }
+
+  UserRepository._internal();
 
   void addUser(User user) {
     _users.add(user);
   }
 
-  User? getUser(String email, String password) {
+  User? authenticate(String email, String password) {
     try {
       return _users.firstWhere(
         (user) => user.email == email && user.password == password,

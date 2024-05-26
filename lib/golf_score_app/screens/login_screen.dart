@@ -5,11 +5,62 @@
 // 로그인 페이지
 // login_screen.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/golf_score_app/screens/my_page_screen.dart';
 import 'find_id_screen.dart';
 import 'sign_up_screen.dart'; // SignUpScreen을 import
+import 'package:flutter_application_1/golf_score_app/models/user_repository.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  LoginScreenState createState() => LoginScreenState();
+}
+
+class LoginScreenState extends State<LoginScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  bool isLoginFailed = false;
+
+  void _login() {
+    UserRepository userRepository = UserRepository();
+    var user = userRepository.authenticate(
+      emailController.text,
+      passwordController.text,
+    );
+
+    if (user != null) {
+      setState(() {
+        isLoginFailed = false;
+      });
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('로그인 성공'),
+          content: const Text('로그인이 정상적으로 완료되었습니다.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                // 로그인 성공 시 이동할 페이지로 네비게이트
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MyPageScreen(
+                              userName: '',
+                            )));
+              },
+              child: const Text('확인'),
+            ),
+          ],
+        ),
+      );
+    } else {
+      setState(() {
+        isLoginFailed = true;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +90,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16.0),
                 TextField(
+                  controller: emailController,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
@@ -50,6 +102,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 8.0),
                 TextField(
+                  controller: passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
                     filled: true,
@@ -67,15 +120,14 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8.0),
-                const Text(
-                  '아이디 및 비밀번호를 잘못 입력하셨습니다. 확인해주세요.',
-                  style: TextStyle(color: Colors.red),
-                ),
+                if (isLoginFailed)
+                  const Text(
+                    '아이디 및 비밀번호를 잘못 입력하셨습니다. 확인해주세요.',
+                    style: TextStyle(color: Colors.red),
+                  ),
                 const SizedBox(height: 16.0),
                 ElevatedButton(
-                  onPressed: () {
-                    // 로그인 버튼 눌렀을 때의 동작
-                  },
+                  onPressed: _login,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFCBD7B5),
                     minimumSize: const Size(double.infinity, 48),
