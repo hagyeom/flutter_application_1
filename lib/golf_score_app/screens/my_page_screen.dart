@@ -6,6 +6,7 @@
 // my_page_screen.dart
 import 'package:flutter/material.dart';
 import 'first_page.dart'; // FirstPage를 import
+import 'before_the_game_starts.dart'; // BeforeTheGameStarts를 import
 
 class MyPageScreen extends StatelessWidget {
   const MyPageScreen({super.key, required String userName});
@@ -76,7 +77,12 @@ class MyPageScreen extends StatelessWidget {
                     title: const Text('내 경기 기록'),
                     trailing: const Icon(Icons.arrow_forward),
                     onTap: () {
-                      // 내 경기 기록 페이지로 이동
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const BeforeTheGameStarts(),
+                        ),
+                      );
                     },
                   ),
                   ListTile(
