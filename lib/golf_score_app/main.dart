@@ -3,7 +3,7 @@
 작성일: 2024-05-21
 */
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/golf_score_app/screens/login_screen.dart';
+import 'screens/first_page.dart'; // 수정된 경로로 import
 
 void main() {
   runApp(const MyApp());
@@ -15,11 +15,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Golf Score App',
+      title: 'Golf App',
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: const LoginScreen(), // 첫 화면을 LoginScreen으로 설정
+      home: const FirstPage(), // 첫 화면을 FirstPage로 설정
     );
   }
 }

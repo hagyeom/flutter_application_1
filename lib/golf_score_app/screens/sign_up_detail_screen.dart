@@ -4,6 +4,8 @@
 */
 // 회원가입 2
 // 회원가입 1에서 모두 동의를 누른 뒤 다음 버튼을 누르면 넘어가는 페이지
+// sign_up_detail_screen.dart
+// sign_up_detail_screen.dart
 import 'package:flutter/material.dart';
 import 'sign_up_email_screen.dart';
 
@@ -56,7 +58,11 @@ class SignUpDetailScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const SignUpEmailScreen()),
+                    builder: (context) => SignUpEmailScreen(
+                      name: nameController.text,
+                      phoneNumber: phoneController.text,
+                    ),
+                  ),
                 );
               },
               style: ElevatedButton.styleFrom(
