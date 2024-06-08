@@ -7,6 +7,10 @@
 import 'package:flutter/material.dart';
 import 'first_page.dart'; // FirstPage를 import
 import 'before_the_game_starts.dart'; // BeforeTheGameStarts를 import
+import 'mygamehistory_screen.dart';
+import 'friend_list_screen.dart';
+import 'my_information_screen.dart';
+import 'setting.dart';
 
 class MyPageScreen extends StatelessWidget {
   const MyPageScreen({super.key, required String userName});
@@ -60,7 +64,12 @@ class MyPageScreen extends StatelessWidget {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                // 경기하기 버튼 동작
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const BeforeTheGameStarts(),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFCBD7B5), // 배경색
@@ -77,12 +86,7 @@ class MyPageScreen extends StatelessWidget {
                     title: const Text('내 경기 기록'),
                     trailing: const Icon(Icons.arrow_forward),
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const BeforeTheGameStarts(),
-                        ),
-                      );
+                      //내 경기 기록
                     },
                   ),
                   ListTile(
@@ -90,7 +94,12 @@ class MyPageScreen extends StatelessWidget {
                     title: const Text('친구 목록'),
                     trailing: const Icon(Icons.arrow_forward),
                     onTap: () {
-                      // 친구 목록 페이지로 이동
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const FriendList(),
+                        ),
+                      );
                     },
                   ),
                   ListTile(
@@ -98,7 +107,12 @@ class MyPageScreen extends StatelessWidget {
                     title: const Text('개인정보 관리'),
                     trailing: const Icon(Icons.arrow_forward),
                     onTap: () {
-                      // 개인정보 관리 페이지로 이동
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MyInformation(),
+                        ),
+                      );
                     },
                   ),
                   ListTile(
@@ -106,7 +120,12 @@ class MyPageScreen extends StatelessWidget {
                     title: const Text('설정'),
                     trailing: const Icon(Icons.arrow_forward),
                     onTap: () {
-                      // 설정 페이지로 이동
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Setting(),
+                        ),
+                      );
                     },
                   ),
                 ],

@@ -9,19 +9,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: '골프앱',
-      home: MyInformation(),
+      home: Setting(),
     );
   }
 }
 
-class MyInformation extends StatefulWidget {
-  const MyInformation({Key? key}) : super(key: key);
+class Setting extends StatefulWidget {
+  const Setting({Key? key}) : super(key: key);
 
   @override
-  _MyInformationState createState() => _MyInformationState();
+  _Setting createState() => _Setting();
 }
 
-class _MyInformationState extends State<MyInformation> {
+class _Setting extends State<Setting> {
   bool schedule = false;
   bool marketing = false;
   bool night = false;

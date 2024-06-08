@@ -10,19 +10,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: '골프앱',
-      home: MyInformation(),
+      home: FriendList(),
     );
   }
 }
 
-class MyInformation extends StatefulWidget {
-  const MyInformation({Key? key}) : super(key: key);
+class FriendList extends StatefulWidget {
+  const FriendList({Key? key}) : super(key: key);
 
   @override
-  _MyInformationState createState() => _MyInformationState();
+  _FriendList createState() => _FriendList();
 }
 
-class _MyInformationState extends State<MyInformation> {
+class _FriendList extends State<FriendList> {
   final List<Member> members = [
     Member(
       name: '홍길동',
