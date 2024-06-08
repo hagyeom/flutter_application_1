@@ -36,9 +36,9 @@ class FirstPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               Image.asset(
-                'assets/golficon.jpg', // 이미지 파일 경로
-                width: 77, // 이미지의 너비
-                height: 100, // 이미지의 높이
+                'assets/golficon.jpg',
+                width: 77,
+                height: 100,
               ),
             ],
           ),
