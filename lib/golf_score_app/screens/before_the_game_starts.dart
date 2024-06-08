@@ -6,79 +6,95 @@
 // 골프장의 각 홀의 파 값을 입력받음
 // 이전 경기 기록이 있을 시 경기 기록 잔류 경고창을 띄움
 import 'package:flutter/material.dart';
+import 'register_players.dart';
 
 class BeforeTheGameStarts extends StatefulWidget {
   const BeforeTheGameStarts({super.key});
 
   @override
-  State<BeforeTheGameStarts> createState() => _BeforeTheGameStartsState();
+  BeforeTheGameStartsState createState() => BeforeTheGameStartsState();
 }
 
-class _BeforeTheGameStartsState extends State<BeforeTheGameStarts> {
-  bool hasPreviousGameRecord = true; // 실제 데이터에 맞게 설정
+class BeforeTheGameStartsState extends State<BeforeTheGameStarts> {
+  final List<TextEditingController> _controllers =
+      List.generate(18, (index) => TextEditingController());
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (hasPreviousGameRecord) {
-        _showPreviousGameRecordWarning();
-      }
-    });
-  }
-
-  void _showPreviousGameRecordWarning() {
+  void _showPreviousGameRecordAlert() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.0),
+            borderRadius: BorderRadius.circular(15),
           ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              const Text(
-                '이전 경기 기록이 남아있습니다.\n이어서 하시겠습니까?',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16.0),
+          content: const Text("이전 경기 기록이 남아있습니다.\n이어 하시겠습니까?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                "예",
+                style: TextStyle(color: Colors.red),
               ),
-              const SizedBox(height: 16.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      // '예' 버튼을 눌렀을 때의 동작 추가
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                    ),
-                    child: const Text('예'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      // '아니요' 버튼을 눌렀을 때의 동작 추가
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                    ),
-                    child: const Text('아니요'),
-                  ),
-                ],
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                "아니요",
+                style: TextStyle(color: Colors.green),
               ),
-            ],
-          ),
+            ),
+          ],
         );
       },
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // 이전 기록이 있으면 경고창 띄우기
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _showPreviousGameRecordAlert());
+  }
+
+  Widget _buildParInputRow(int start, int end) {
+    return Row(
+      children: List.generate(end - start + 1, (index) {
+        return Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: TextField(
+              controller: _controllers[start + index - 1],
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+        );
+      }),
+    );
+  }
+
+  Widget _buildHoleRow(int start, int end) {
+    return Row(
+      children: List.generate(end - start + 1, (index) {
+        return Expanded(
+          child: Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(8.0),
+            color: Colors.lightGreen[200],
+            child: Text(
+              "${start + index}",
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+        );
+      }),
     );
   }
 
@@ -86,64 +102,59 @@ class _BeforeTheGameStartsState extends State<BeforeTheGameStarts> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('경기 시작 전'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        title: const Icon(Icons.home),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          children: <Widget>[
-            const Text(
-              '골프장의 각 홀의 파값을 입력하세요.',
-              style: TextStyle(fontSize: 18.0),
-            ),
+          children: [
+            const Text("골프장의 각 홀의 파 값을 입력하세요."),
             const SizedBox(height: 16.0),
-            Table(
-              border: TableBorder.all(color: Colors.green),
-              children: [
-                _buildTableRow(['홀', '1', '2', '3']),
-                _buildTableRow(['파', '', '', '']),
-                _buildTableRow(['홀', '4', '5', '6']),
-                _buildTableRow(['파', '', '', '']),
-                _buildTableRow(['홀', '7', '8', '9']),
-                _buildTableRow(['파', '', '', '']),
-                _buildTableRow(['OUT', '', '', '']),
-                _buildTableRow(['홀', '10', '11', '12']),
-                _buildTableRow(['파', '', '', '']),
-                _buildTableRow(['홀', '13', '14', '15']),
-                _buildTableRow(['파', '', '', '']),
-                _buildTableRow(['홀', '16', '17', '18']),
-                _buildTableRow(['파', '', '', '']),
-                _buildTableRow(['IN', '', '', '']),
-              ],
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    _buildHoleRow(1, 3),
+                    _buildParInputRow(1, 3),
+                    _buildHoleRow(4, 6),
+                    _buildParInputRow(4, 6),
+                    _buildHoleRow(7, 9),
+                    _buildParInputRow(7, 9),
+                    const SizedBox(height: 8.0),
+                    _buildHoleRow(10, 12),
+                    _buildParInputRow(10, 12),
+                    _buildHoleRow(13, 15),
+                    _buildParInputRow(13, 15),
+                    _buildHoleRow(16, 18),
+                    _buildParInputRow(16, 18),
+                  ],
+                ),
+              ),
             ),
-            const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                // 입력 완료 버튼 눌렀을 때의 동작
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const RegisterPlayers(),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.grey,
               ),
-              child: const Text('입력 완료'),
+              child: const Text("입력 완료"),
             ),
           ],
         ),
       ),
-    );
-  }
-
-  TableRow _buildTableRow(List<String> cells) {
-    return TableRow(
-      children: cells.map((cell) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            cell,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 16.0),
-          ),
-        );
-      }).toList(),
     );
   }
 }
