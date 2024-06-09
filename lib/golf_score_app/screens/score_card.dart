@@ -14,7 +14,7 @@ class ScoreCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Score Card'),
+        title: Text('스코어 카드'),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,

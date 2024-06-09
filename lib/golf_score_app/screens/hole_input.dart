@@ -1,4 +1,4 @@
-
+import 'app_bar_public.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'score_card.dart';
@@ -41,7 +41,7 @@ class _HoleInputState extends State<HoleInput> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: MakeAppBar.build(context),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
