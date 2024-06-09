@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/golf_score_app/screens/wld_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'first_page.dart'; // FirstPage를 import
+import 'package:flutter_application_1/golf_score_app/screens/first_page.dart'; // FirstPage를 import
 import 'before_the_game_starts.dart'; // BeforeTheGameStarts를 import
 import 'mygamehistory_screen.dart';
 import 'friend_list_screen.dart';
