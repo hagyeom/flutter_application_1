@@ -176,47 +176,6 @@ class LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-<<<<<<< HEAD
-                    SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: IconButton(
-                        icon: Image.asset('assets/naver.png'),
-                        onPressed: () {
-                          // 네이버 로그인 기능 추가
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: IconButton(
-                        icon: Image.asset('assets/kakao.png'),
-                        onPressed: () {
-                          // 카카오톡 로그인 기능 추가
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: IconButton(
-                        icon: Image.asset('assets/google.png'),
-                        onPressed: () {
-                          // 구글 로그인 기능 추가
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: IconButton(
-                        icon: Image.asset('assets/facebook.png'),
-                        onPressed: () {
-                          // 페이스북 로그인 기능 추가
-                        },
-                      ),
-=======
                     IconButton(
                       icon: SizedBox(
                         width: sizenum,
@@ -256,7 +215,6 @@ class LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         // 페이스북 로그인 기능 추가
                       },
->>>>>>> 889185a8c0f6e4e8e051dd47d4eded2f9b2c85ef
                     ),
                   ],
                 ),

@@ -1,8 +1,3 @@
-// 회원가입 2
-// 회원가입 1에서 모두 동의를 누른 뒤 다음 버튼을 누르면 넘어가는 페이지
-// 이름과 전화번호를 입력받음
-// 이름과 전화번호를 다 입력받아야 다음 버튼이 활성화됨
-// sign_up_detail_screen.dart
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'sign_up_email_screen.dart';
@@ -104,20 +99,15 @@ class SignUpDetailScreenState extends State<SignUpDetailScreen> {
               onPressed: _isButtonEnabled ? _onNextButtonPressed : null,
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
-<<<<<<< HEAD
                 backgroundColor: _isButtonEnabled ? Colors.lightGreen : Colors.grey, // 텍스트 색상
                 minimumSize: const Size(double.infinity, 50), // 버튼 크기
-=======
-                backgroundColor: Color(0xFFB9CA98), // 텍스트 색상
-                minimumSize: const Size(double.infinity, 56), // 버튼 크기
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
->>>>>>> 889185a8c0f6e4e8e051dd47d4eded2f9b2c85ef
               ),
               child: const Text('다음'),
             ),
-            SizedBox(height: 50,)
+            const SizedBox(height: 50,)
           ],
         ),
       ),
