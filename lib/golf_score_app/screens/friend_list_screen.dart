@@ -10,23 +10,23 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: '골프앱',
-      home: MyInformation(),
+      home: FriendList(),
     );
   }
 }
 
-class MyInformation extends StatefulWidget {
-  const MyInformation({Key? key}) : super(key: key);
+class FriendList extends StatefulWidget {
+  const FriendList({Key? key}) : super(key: key);
 
   @override
-  _MyInformationState createState() => _MyInformationState();
+  _FriendList createState() => _FriendList();
 }
 
-class _MyInformationState extends State<MyInformation> {
+class _FriendList extends State<FriendList> {
   final List<Member> members = [
     Member(
       name: '홍길동',
-      phoneNumber: '010-1234-5678',
+      phoneNumber: '01000000000',
       id: 'hong123@gmail.com',
       pw: 'password',
       memberCode: '0000',
@@ -34,11 +34,11 @@ class _MyInformationState extends State<MyInformation> {
       wins: 5,
       losses: 10,
       draws: 3,
-      friends: ['김철수', '봉미선', '신짱구'],
+      friends: ['김철수', '거북이', '두루미', '봉미선', '신짱구', '신형만'],
     ),
     Member(
       name: '김철수',
-      phoneNumber: '010-1111-1111',
+      phoneNumber: '01011111111',
       id: 'kim123@gmail.com',
       pw: 'password1',
       memberCode: '0001',
@@ -46,31 +46,67 @@ class _MyInformationState extends State<MyInformation> {
       wins: 10,
       losses: 3,
       draws: 5,
-      friends: ['봉미선', '신짱구', '홍길동'],
+      friends: ['봉미선', '신짱구', '신형만', '홍길동'],
+    ),
+    Member(
+      name: '거북이',
+      phoneNumber: '01022222222',
+      id: 'gu123@gmail.com',
+      pw: 'password2',
+      memberCode: '0002',
+      totalHoles: 36,
+      wins: 25,
+      losses: 6,
+      draws: 5,
+      friends: ['두루미', '신형만', '홍길동'],
+    ),
+    Member(
+      name: '두루미',
+      phoneNumber: '01033333333',
+      id: 'du123@gmail.com',
+      pw: 'password3',
+      memberCode: '0003',
+      totalHoles: 18,
+      wins: 10,
+      losses: 3,
+      draws: 5,
+      friends: ['거북이', '봉미선', '신형만', '홍길동'],
     ),
     Member(
       name: '봉미선',
-      phoneNumber: '010-2222-2222',
+      phoneNumber: '01044444444',
       id: 'bong123@gmail.com',
-      pw: 'password3',
-      memberCode: '0002',
+      pw: 'password4',
+      memberCode: '0004',
       totalHoles: 72,
-      wins: 66,
-      losses: 4,
-      draws: 2,
-      friends: ['김철수', '신짱구', '홍길동'],
+      wins: 50,
+      losses: 10,
+      draws: 12,
+      friends: ['김철수', '두루미', '신형만', '신짱구', '홍길동'],
     ),
     Member(
       name: '신짱구',
-      phoneNumber: '010-3333-3333',
+      phoneNumber: '01055555555',
       id: 'sin123@gmail.com',
-      pw: 'password4',
-      memberCode: '0003',
+      pw: 'password5',
+      memberCode: '0005',
       totalHoles: 36,
-      wins: 32,
-      losses: 2,
-      draws: 2,
-      friends: ['김철수', '봉미선', '홍길동'],
+      wins: 20,
+      losses: 9,
+      draws: 7,
+      friends: ['김철수', '봉미선', '홍길동', '신형만'],
+    ),
+    Member(
+      name: '신형만',
+      phoneNumber: '01066666666',
+      id: 'Sin123@gmail.com',
+      pw: 'password6',
+      memberCode: '0006',
+      totalHoles: 36,
+      wins: 16,
+      losses: 11,
+      draws: 9,
+      friends: ['거북이', '김철수', '두루미', '봉미선', '신짱구', '홍길동'],
     ),
     //추가 기록 ...
   ];

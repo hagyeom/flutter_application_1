@@ -13,6 +13,7 @@ class FirstPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFBFD98F),
       body: GestureDetector(
         onTap: () {
           Navigator.push(
@@ -20,44 +21,26 @@ class FirstPage extends StatelessWidget {
             MaterialPageRoute(builder: (context) => const LoginScreen()),
           );
         },
-        child: Container(
-          color: const Color(0xFFCBD7B5), // 배경색 설정
-          child: const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'GOLF',
-                  style: TextStyle(
-                    fontSize: 48.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                Text(
-                  'is',
-                  style: TextStyle(
-                    fontSize: 32.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                Text(
-                  'My Life',
-                  style: TextStyle(
-                    fontSize: 48.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: 24.0),
-                Icon(
-                  Icons.golf_course,
-                  size: 100.0,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text(
+                'GOLF\nis\nMy Life',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'GILLUBCD',
+                  fontSize: 40,
                   color: Colors.white,
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 20),
+              Image.asset(
+                'assets/golficon.jpg',
+                width: 77,
+                height: 100,
+              ),
+            ],
           ),
         ),
       ),

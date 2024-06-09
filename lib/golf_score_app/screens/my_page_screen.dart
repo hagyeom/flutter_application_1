@@ -5,66 +5,79 @@
 // 마이 페이지
 // my_page_screen.dart
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'first_page.dart'; // FirstPage를 import
 import 'before_the_game_starts.dart'; // BeforeTheGameStarts를 import
+import 'mygamehistory_screen.dart';
+import 'friend_list_screen.dart';
+import 'my_information_screen.dart';
+import 'setting.dart';
 
-class MyPageScreen extends StatelessWidget {
-  const MyPageScreen({super.key, required String userName});
+class MyPageScreen extends StatefulWidget {
+  const MyPageScreen({super.key, required this.userName});
+
+  final String userName;
+
+  @override
+  MyPageScreenState createState() => MyPageScreenState();
+}
+
+class MyPageScreenState extends State<MyPageScreen> {
+  String _userName = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserName();
+  }
+
+  Future<void> _loadUserName() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _userName = prefs.getString('userName') ?? '회원';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('마이 페이지'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.more_vert),
-            onPressed: () {
-              // 추가 동작
-            },
-          ),
-        ],
+        title: const Text('마이페이지'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CircleAvatar(
               radius: 50,
-              backgroundImage:
-                  const AssetImage('assets/profile_image.jpg'), // 프로필 이미지
-              child: Stack(
-                children: [
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: CircleAvatar(
-                      radius: 16,
-                      backgroundColor: Colors.white,
-                      child: IconButton(
-                        icon: const Icon(Icons.edit, size: 16),
-                        onPressed: () {
-                          // 프로필 이미지 편집
-                        },
-                      ),
-                    ),
-                  ),
-                ],
+              backgroundImage: const AssetImage('assets/profile_image.jpg'),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: IconButton(
+                  icon: const Icon(Icons.edit),
+                  onPressed: () {
+                    // Edit profile picture functionality
+                  },
+                ),
               ),
             ),
-            const SizedBox(height: 16),
-            const Text(
-              '홍길동',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            const SizedBox(height: 10),
+            Text(
+              _userName,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // 경기하기 버튼 동작
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const BeforeTheGameStarts(),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFCBD7B5), // 배경색
-                minimumSize: const Size(double.infinity, 48), // 버튼 크기
+                backgroundColor: Colors.lightGreen,
               ),
               child: const Text('경기하기'),
             ),
@@ -80,7 +93,7 @@ class MyPageScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const BeforeTheGameStarts(),
+                          builder: (context) => const MyGameHistoryScreen(),
                         ),
                       );
                     },
@@ -90,7 +103,12 @@ class MyPageScreen extends StatelessWidget {
                     title: const Text('친구 목록'),
                     trailing: const Icon(Icons.arrow_forward),
                     onTap: () {
-                      // 친구 목록 페이지로 이동
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const FriendListScreen(),
+                        ),
+                      );
                     },
                   ),
                   ListTile(
@@ -98,7 +116,12 @@ class MyPageScreen extends StatelessWidget {
                     title: const Text('개인정보 관리'),
                     trailing: const Icon(Icons.arrow_forward),
                     onTap: () {
-                      // 개인정보 관리 페이지로 이동
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MyInformationScreen(),
+                        ),
+                      );
                     },
                   ),
                   ListTile(
@@ -106,7 +129,12 @@ class MyPageScreen extends StatelessWidget {
                     title: const Text('설정'),
                     trailing: const Icon(Icons.arrow_forward),
                     onTap: () {
-                      // 설정 페이지로 이동
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SettingScreen(),
+                        ),
+                      );
                     },
                   ),
                 ],
@@ -114,21 +142,13 @@ class MyPageScreen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                _logout(context);
+                // Log out functionality
               },
-              child: const Text('로그아웃', style: TextStyle(color: Colors.black)),
+              child: const Text('로그아웃'),
             ),
           ],
         ),
       ),
-    );
-  }
-
-  void _logout(BuildContext context) {
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => const FirstPage()),
-      (Route<dynamic> route) => false,
     );
   }
 }
