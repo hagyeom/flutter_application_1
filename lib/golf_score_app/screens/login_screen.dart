@@ -22,6 +22,7 @@ class LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool isLoginFailed = false;
+  final double sizenum = 40; //아이콘 크기 변수
 
   void _login() {
     UserRepository userRepository = UserRepository();
@@ -66,9 +67,6 @@ class LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('로그인'),
-      ),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -78,18 +76,19 @@ class LoginScreenState extends State<LoginScreen> {
         ),
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 28),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                SizedBox(height: 20),
                 const Text(
                   '로그인',
                   style: TextStyle(
-                      fontSize: 32.0,
+                      fontSize: 40,
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
                 ),
-                const SizedBox(height: 16.0),
+                const SizedBox(height: 50),
                 TextField(
                   controller: emailController,
                   decoration: InputDecoration(
@@ -120,21 +119,28 @@ class LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 8.0),
+                const SizedBox(height: 8),
                 if (isLoginFailed)
-                  const Text(
-                    '아이디 및 비밀번호를 잘못 입력하셨습니다. 확인해주세요.',
-                    style: TextStyle(color: Colors.red),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: const Text(
+                      '아이디 및 비밀번호를 잘못 입력하셨습니다. 확인해주세요.',
+                      style: TextStyle(color: Colors.red, fontSize: 15,),
+                    ),
                   ),
-                const SizedBox(height: 16.0),
+                const SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: _login,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFCBD7B5),
-                    minimumSize: const Size(double.infinity, 48),
+                    backgroundColor: const Color(0xFFB9CA98),
+                    minimumSize: const Size(double.infinity, 56),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
-                  child: const Text('로그인하기'),
+                  child: const Text('로그인하기', style: TextStyle(color: Colors.black),),
                 ),
+                const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -164,12 +170,13 @@ class LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16.0),
+                const SizedBox(height: 50),
                 const Text('or', style: TextStyle(color: Colors.white)),
-                const SizedBox(height: 16.0),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+<<<<<<< HEAD
                     SizedBox(
                       width: 50,
                       height: 50,
@@ -209,6 +216,47 @@ class LoginScreenState extends State<LoginScreen> {
                           // 페이스북 로그인 기능 추가
                         },
                       ),
+=======
+                    IconButton(
+                      icon: SizedBox(
+                        width: sizenum,
+                        height: sizenum,
+                        child: Image.asset('assets/naver.png'),
+                      ),
+                      onPressed: () {
+                        // 네이버 로그인 기능 추가
+                      },
+                    ),
+                    IconButton(
+                      icon: SizedBox(
+                        width: sizenum,
+                        height: sizenum,
+                        child: Image.asset('assets/kakao.png'),
+                      ),
+                      onPressed: () {
+                        // 카카오톡 로그인 기능 추가
+                      },
+                    ),
+                    IconButton(
+                      icon: SizedBox(
+                        width: sizenum,
+                        height: sizenum,
+                        child: Image.asset('assets/google.png'),
+                      ),
+                      onPressed: () {
+                        // 구글 로그인 기능 추가
+                      },
+                    ),
+                    IconButton(
+                      icon: SizedBox(
+                        width: sizenum,
+                        height: sizenum,
+                        child: Image.asset('assets/facebook.png'),
+                      ),
+                      onPressed: () {
+                        // 페이스북 로그인 기능 추가
+                      },
+>>>>>>> 889185a8c0f6e4e8e051dd47d4eded2f9b2c85ef
                     ),
                   ],
                 ),

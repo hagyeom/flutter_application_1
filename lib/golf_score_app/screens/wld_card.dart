@@ -23,6 +23,16 @@ class WLDcard extends StatelessWidget {
     required this.players,
   });
 
+  Color _getBorderColor() {
+    if (wins > losses && wins > draws) {
+      return Color(0xFFFFB3B3);
+    } else if (losses > wins && losses > draws) {
+      return Color(0xFFC8C2FA);
+    } else {
+      return Color(0xFF00A64F);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,7 +41,7 @@ class WLDcard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(
-          color: Color(0xFFFFB3B3),
+          color: _getBorderColor(),
           width: 2,
         ),
         borderRadius: BorderRadius.circular(20),

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:flutter_application_1/golf_score_app/screens/wld_card.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // FirstPage를 import
 import 'before_the_game_starts.dart'; // BeforeTheGameStarts를 import
+=======
+import 'package:shared_preferences/shared_preferences.dart';
+import 'before_the_game_starts.dart';
+>>>>>>> 889185a8c0f6e4e8e051dd47d4eded2f9b2c85ef
 import 'mygamehistory_screen.dart';
 import 'friend_list_screen.dart';
 import 'my_information_screen.dart';
@@ -19,7 +24,6 @@ class MyPageScreen extends StatefulWidget {
 
 class MyPageScreenState extends State<MyPageScreen> {
   String _userName = '';
-
   @override
   void initState() {
     super.initState();
@@ -102,6 +106,7 @@ class MyPageScreenState extends State<MyPageScreen> {
                     title: const Text('내 경기 기록'),
                     trailing: const Icon(Icons.arrow_forward),
                     onTap: () {
+<<<<<<< HEAD
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -111,6 +116,9 @@ class MyPageScreenState extends State<MyPageScreen> {
                           ),
                         ),
                       );
+=======
+
+>>>>>>> 889185a8c0f6e4e8e051dd47d4eded2f9b2c85ef
                     },
                   ),
                   ListTile(

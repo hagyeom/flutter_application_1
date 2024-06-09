@@ -15,17 +15,17 @@ class MyApp extends StatelessWidget {
       id: 'hong123@gmail.com',
       pw: 'password',
       memberCode: '0000',
-      totalHoles: 18,
-      wins: 5,
-      losses: 10,
-      draws: 3,
+      totalHoles: 90,
+      wins: 39,
+      losses: 34,
+      draws: 17,
       friends: ['김철수', '거북이', '두루미', '봉미선', '신짱구', '신형만'],
     );
 
     final List<WLDcard> gameRecords = [
       WLDcard(
         date: '2024-06-10',
-        players : [
+        players: [
           Player(name: '홍길동', wins: 16, holes: 66),
           Player(name: '신형만', wins: 2, holes: 80),
           Player(name: '거북이', wins: 0, holes: 96),
@@ -93,16 +93,82 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyGameHistory extends StatelessWidget {
+class MyGameHistory extends StatefulWidget {
   final Member member;
   final List<WLDcard> gameRecords;
+  List<WLDcard> _filteredGameRecords =[];
 
-  const MyGameHistory({Key? key, required this.member, required this.gameRecords}) : super(key: key);
+  MyGameHistory({Key? key, required this.member, required this.gameRecords}) : super(key: key);
+
+  @override
+  _MyGameHistoryState createState() => _MyGameHistoryState();
+}
+
+class _MyGameHistoryState extends State<MyGameHistory> {
+  String? _selectedValue = '전체';
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeFilteredGameRecords(_selectedValue); // 초기값 설정
+  }
+
+  void _initializeFilteredGameRecords(String? selectedValue) {
+    if (selectedValue == '전체') {
+      setState(() {
+        widget._filteredGameRecords = widget.gameRecords;
+      });
+    } else if (selectedValue == '승리한 경기') {
+      setState(() {
+        widget._filteredGameRecords = widget.gameRecords
+            .where((record) => record.wins > record.losses && record.wins > record.draws)
+            .toList();
+      });
+    } else if (selectedValue == '패배한 경기') {
+      setState(() {
+        widget._filteredGameRecords = widget.gameRecords
+            .where((record) => record.losses > record.wins && record.losses > record.draws)
+            .toList();
+      });
+    } else if (selectedValue == '무승부 경기') {
+      setState(() {
+        widget._filteredGameRecords = widget.gameRecords
+            .where((record) => record.draws > record.wins && record.draws > record.losses)
+            .toList();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final double containerWidth = MediaQuery.of(context).size.width - 20;
     final double size = (containerWidth - 3) / 4;
+
+    void _onDropdownGameChanged(String? newValue) {
+      if (newValue == '전체') {
+        setState(() {
+          widget._filteredGameRecords = widget.gameRecords;
+        });
+      } else if (newValue == '승리한 경기') {
+        setState(() {
+          widget._filteredGameRecords = widget.gameRecords
+              .where((record) => record.wins > record.losses && record.wins > record.draws)
+              .toList();
+        });
+      } else if (newValue == '패배한 경기') {
+        setState(() {
+          widget._filteredGameRecords = widget.gameRecords
+              .where((record) => record.losses > record.wins && record.losses > record.draws)
+              .toList();
+        });
+      } else if (newValue == '무승부 경기') {
+        setState(() {
+          widget._filteredGameRecords = widget.gameRecords
+              .where((record) => record.draws > record.wins && record.draws > record.losses)
+              .toList();
+        });
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -123,13 +189,13 @@ class MyGameHistory extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _buildStatColumn('총 경기 홀 수', member.totalHoles.toString(), Colors.black, size),
+                      _buildStatColumn('총 경기 홀 수', widget.member.totalHoles.toString(), Colors.black, size),
                       _buildDivider(),
-                      _buildStatColumn('승리한 횟수', member.wins.toString(), Colors.red, size),
+                      _buildStatColumn('승리한 횟수', widget.member.wins.toString(), Colors.red, size),
                       _buildDivider(),
-                      _buildStatColumn('패배한 횟수', member.losses.toString(), Colors.blue, size),
+                      _buildStatColumn('패배한 횟수', widget.member.losses.toString(), Colors.blue, size),
                       _buildDivider(),
-                      _buildStatColumn('무승부한 횟수', member.draws.toString(), Colors.green, size),
+                      _buildStatColumn('무승부한 횟수', widget.member.draws.toString(), Colors.green, size),
                     ],
                   ),
                 ),
@@ -153,14 +219,14 @@ class MyGameHistory extends StatelessWidget {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Padding(
-                                padding: EdgeInsets.only(left: 10),
-                                child: DropdownGame(),
-                              ),
-                              const SizedBox(width: 12),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 10),
-                                child: DropdownDate(),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: DropdownGame(
+                                  initialValue: _selectedValue, // 초기값 설정
+                                  onChanged: (newValue) {
+                                    _onDropdownGameChanged(newValue);
+                                  },
+                                ),
                               ),
                             ],
                           ),
@@ -172,7 +238,7 @@ class MyGameHistory extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(left: 10),
                                 child: Text(
-                                  '경기 ${gameRecords.length}건',
+                                  '경기 ${widget.gameRecords.length}건',
                                   style: const TextStyle(
                                     fontSize: 13,
                                   ),
@@ -198,7 +264,7 @@ class MyGameHistory extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        for (var record in gameRecords)
+                        for (var record in widget._filteredGameRecords)
                           Padding(
                             padding: const EdgeInsets.only(bottom: 20.0),
                             child: WLDcard(
@@ -223,7 +289,7 @@ class MyGameHistory extends StatelessWidget {
 
   Widget _buildStatColumn(String label, String value, Color color, double width) {
     return Container(
-    width: width,
+      width: width,
       height: 100,
       child: Center(
         child: Column(
@@ -262,14 +328,17 @@ class MyGameHistory extends StatelessWidget {
 }
 
 class DropdownGame extends StatefulWidget {
-  const DropdownGame({Key? key}) : super(key: key);
+  final ValueChanged<String?> onChanged;
+  final String? initialValue; // 초기값 추가
+
+  const DropdownGame({Key? key, required this.onChanged, this.initialValue}) : super(key: key);
 
   @override
   _DropdownGameState createState() => _DropdownGameState();
 }
 
 class _DropdownGameState extends State<DropdownGame> {
-  String? _selectedValue;
+  late String? _selectedValue;
 
   final List<String> _dropdownItems = [
     '전체',
@@ -279,50 +348,20 @@ class _DropdownGameState extends State<DropdownGame> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _selectedValue = widget.initialValue; // 초기값 설정
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
       value: _selectedValue,
       hint: const Text('전체'),
       onChanged: (String? newValue) {
         setState(() {
-          _selectedValue = newValue;
-        });
-      },
-      items: _dropdownItems.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-    );
-  }
-}
-
-class DropdownDate extends StatefulWidget {
-  const DropdownDate({Key? key}) : super(key: key);
-
-  @override
-  _DropdownDateState createState() => _DropdownDateState();
-}
-
-class _DropdownDateState extends State<DropdownDate> {
-  String? _selectedValue;
-
-  final List<String> _dropdownItems = [
-    '기간 전체',
-    '1주일 이내',
-    '1달 이내',
-    '1년 이내',
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      value: _selectedValue,
-      hint: const Text('기간 전체'),
-      onChanged: (String? newValue) {
-        setState(() {
-          _selectedValue = newValue;
+          _selectedValue = newValue; // 선택된 값 업데이트
+          widget.onChanged(newValue); // 콜백 호출
         });
       },
       items: _dropdownItems.map<DropdownMenuItem<String>>((String value) {

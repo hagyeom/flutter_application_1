@@ -22,7 +22,7 @@ class _RegisterPlayersState extends State<RegisterPlayers> {
   final Logger _logger = Logger('RegisterPlayersLogger');
 
   void _savePlayerData() {
-    // 여기서 선수 등록 정보를 저장합니다.
+    // 여기서 선수 등록 정보를 저장
     final player1 = _player1Controller.text;
     final player2 = _player2Controller.text;
     final player3 = _player3Controller.text;

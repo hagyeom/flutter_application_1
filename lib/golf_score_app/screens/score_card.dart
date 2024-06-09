@@ -23,7 +23,7 @@ class ScoreCard extends StatelessWidget {
             Row(
               children: [
                 Image.asset(
-                  'lib/assets/images/sparkles.png',
+                  'assets/images/sparkles.png',
                   width: 80,
                   height: 100,
                 ),
@@ -40,23 +40,23 @@ class ScoreCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Image.asset('lib/assets/images/1등.png'),
+                        Image.asset('assets/images/1등.png'),
                         Text(players[0]),
                       ],
                     ),
                     Row(
                       children: [
-                        Image.asset('lib/assets/images/2등.png'),
+                        Image.asset('assets/images/2등.png'),
                       ],
                     ),
                     Row(
                       children: [
-                        Image.asset('lib/assets/images/3등.png'),
+                        Image.asset('assets/images/3등.png'),
                       ],
                     ),
                     Row(
                       children: [
-                        Image.asset('lib/assets/images/4등.png'),
+                        Image.asset('assets/images/4등.png'),
                       ],
                     ),
                   ],
@@ -66,7 +66,7 @@ class ScoreCard extends StatelessWidget {
             Row(
               children: [
                 Image.asset(
-                  'lib/assets/images/sparkles.png',
+                  'assets/images/sparkles.png',
                   width: 80,
                   height: 100,
                 ),

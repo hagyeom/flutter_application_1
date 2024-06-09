@@ -104,11 +104,20 @@ class SignUpDetailScreenState extends State<SignUpDetailScreen> {
               onPressed: _isButtonEnabled ? _onNextButtonPressed : null,
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
+<<<<<<< HEAD
                 backgroundColor: _isButtonEnabled ? Colors.lightGreen : Colors.grey, // 텍스트 색상
                 minimumSize: const Size(double.infinity, 50), // 버튼 크기
+=======
+                backgroundColor: Color(0xFFB9CA98), // 텍스트 색상
+                minimumSize: const Size(double.infinity, 56), // 버튼 크기
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+>>>>>>> 889185a8c0f6e4e8e051dd47d4eded2f9b2c85ef
               ),
               child: const Text('다음'),
             ),
+            SizedBox(height: 50,)
           ],
         ),
       ),
