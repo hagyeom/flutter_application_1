@@ -9,6 +9,7 @@ List<int> pars = List.filled(18, 4); // 초기값은 모두 4로 임시 설정
 List<List<int>> scores = List.generate(4, (_) => List.filled(18, 0));
 List<bool> holeCompleted = List.filled(18, false); // 각 홀의 입력 완료 상태를 추적하는 리스트
 List<List<Color>> teamColors = List.generate(18, (_) => List.filled(4, Colors.white)); // 각 홀의 팀 색상을 추적하는 리스트
+int teamType=4;
 
 class HoleInput extends StatefulWidget {
   final int holeIndex;
@@ -107,13 +108,52 @@ class _HoleInputState extends State<HoleInput> {
                 ],
               ),
             ),
+            Row(children: [
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    teamType = 0;
+                  });
+                  saveScores();
+                  assignTeams(); // 팀 지정 및 결과 색상 적용
+                  navigateToNextHole(context);
+                },
+                child: Text('개인전'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    teamType = 1;
+                  });
+                  saveScores();
+                  assignTeams(); // 팀 지정 및 결과 색상 적용
+                  navigateToNextHole(context);
+                },
+                child: Text('2:2'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    teamType = 2;
+                  });
+                  saveScores();
+                  assignTeams(); // 팀 지정 및 결과 색상 적용
+                  navigateToNextHole(context);
+                },
+                child: Text('3:1'),
+              ),
+            ],
+            ),
             ElevatedButton(
               onPressed: () {
+                setState(() {
+                  teamType = 4;
+                });
                 saveScores();
                 assignTeams(); // 팀 지정 및 결과 색상 적용
                 navigateToNextHole(context);
               },
-              child: Text(widget.holeIndex < 17 ? '기록 하기' : '경기 종료'),
+              child: Text(widget.holeIndex < 17 ? '팀 랜덤 기록' : '경기 종료'),
             ),
             SizedBox(height: 10,),
             ElevatedButton(
@@ -145,7 +185,7 @@ class _HoleInputState extends State<HoleInput> {
     List<Color> teamColorsForHole = List.filled(4, Colors.white);
     List<int> indices = [0, 1, 2, 3];
     indices.shuffle();
-    int teamType = Random().nextInt(3); // 0: 개인, 1: 2대2, 2: 3대1
+    if(teamType==4)teamType = Random().nextInt(3); // 0: 개인, 1: 2대2, 2: 3대1
 
     if (teamType == 0) {
       // 개인전
