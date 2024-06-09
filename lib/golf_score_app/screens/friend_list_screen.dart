@@ -134,6 +134,7 @@ class _FriendList extends State<FriendList> {
   }
 
   //친구 목록 추가
+  //친구 목록 추가
   TextEditingController _codeController = TextEditingController();
   void _performActionWithCode(String code) {
     Member? foundMember;
@@ -145,17 +146,27 @@ class _FriendList extends State<FriendList> {
     }
     // 회원을 찾은 경우
     if (foundMember != null) {
-      setState(() {
-        // 현재 사용자의 친구 목록에 찾은 회원 이름 추가 지금은 홍길동이라서...
-        members.firstWhere((m) => m.name == '홍길동').friends.add(foundMember!.name);
-        _sortFriendsList();
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('${foundMember.name}가 친구 목록에 추가되었습니다.'),
-          duration: Duration(seconds: 2),
-        ),
-      );
+      // 이미 친구 목록에 있는지 확인
+      if (members.firstWhere((m) => m.name == '홍길동').friends.contains(foundMember.name)) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${foundMember.name}는 이미 친구로 설정되어있습니다.'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      } else {
+        setState(() {
+          // 현재 사용자의 친구 목록에 찾은 회원 이름 추가 지금은 홍길동이라서...
+          members.firstWhere((m) => m.name == '홍길동').friends.add(foundMember!.name);
+          _sortFriendsList();
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${foundMember.name}가 친구 목록에 추가되었습니다.'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
     } else {
       // 회원을 찾지 못한 경우
       ScaffoldMessenger.of(context).showSnackBar(
