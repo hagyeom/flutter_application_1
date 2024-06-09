@@ -35,15 +35,15 @@ class _MyInformationState extends State<MyInformation> {
     super.initState();
     member = Member(
       name: '홍길동',
-      phoneNumber: '010-1234-5678',
+      phoneNumber: '01000000000',
       id: 'hong123@gmail.com',
       pw: 'password',
       memberCode: '0000',
-      totalHoles: 18,
-      wins: 5,
-      losses: 10,
-      draws: 3,
-      friends: ['김철수', '봉미선', '신짱구'],
+      totalHoles: 90,
+      wins: 39,
+      losses: 34,
+      draws: 17,
+      friends: ['김철수', '거북이', '두루미', '봉미선', '신짱구', '신형만'],
     );
     _nameController = TextEditingController(text: member!.name);
     _phoneNumberController = TextEditingController(text: member!.phoneNumber);
