@@ -7,6 +7,7 @@ import 'login_screen.dart';
 
 // 첫페이지
 // 화면 클릭 시 로그인 화면으로 이동(login_screen.dart으로 이동)
+// first_page.dart
 class FirstPage extends StatelessWidget {
   const FirstPage({super.key});
 
