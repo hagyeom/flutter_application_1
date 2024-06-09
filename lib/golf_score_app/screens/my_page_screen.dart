@@ -6,8 +6,7 @@
 // my_page_screen.dart
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'first_page.dart'; // FirstPage를 import
-import 'before_the_game_starts.dart'; // BeforeTheGameStarts를 import
+import 'before_the_game_starts.dart';
 import 'mygamehistory_screen.dart';
 import 'friend_list_screen.dart';
 import 'my_information_screen.dart';
@@ -24,7 +23,6 @@ class MyPageScreen extends StatefulWidget {
 
 class MyPageScreenState extends State<MyPageScreen> {
   String _userName = '';
-
   @override
   void initState() {
     super.initState();
@@ -90,12 +88,7 @@ class MyPageScreenState extends State<MyPageScreen> {
                     title: const Text('내 경기 기록'),
                     trailing: const Icon(Icons.arrow_forward),
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MyGameHistoryScreen(),
-                        ),
-                      );
+
                     },
                   ),
                   ListTile(
@@ -106,7 +99,7 @@ class MyPageScreenState extends State<MyPageScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const FriendListScreen(),
+                          builder: (context) => const FriendList(),
                         ),
                       );
                     },
@@ -119,7 +112,7 @@ class MyPageScreenState extends State<MyPageScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const MyInformationScreen(),
+                          builder: (context) => const MyInformation(),
                         ),
                       );
                     },
@@ -132,7 +125,7 @@ class MyPageScreenState extends State<MyPageScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const SettingScreen(),
+                          builder: (context) => const Setting(),
                         ),
                       );
                     },
