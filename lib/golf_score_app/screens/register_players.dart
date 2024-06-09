@@ -4,7 +4,7 @@
 */
 // 선수 등록
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
+import 'package:logging/logging.dart';
 
 class RegisterPlayers extends StatefulWidget {
   const RegisterPlayers({super.key});
@@ -19,7 +19,7 @@ class _RegisterPlayersState extends State<RegisterPlayers> {
   final TextEditingController _player3Controller = TextEditingController();
   final TextEditingController _player4Controller = TextEditingController();
 
-  final Logger _logger = Logger();
+  final Logger _logger = Logger('RegisterPlayersLogger');
 
   void _savePlayerData() {
     // 여기서 선수 등록 정보를 저장합니다.
@@ -29,10 +29,10 @@ class _RegisterPlayersState extends State<RegisterPlayers> {
     final player4 = _player4Controller.text;
 
     // 등록 정보 저장 로직 추가
-    _logger.i('Player 1: $player1');
-    _logger.i('Player 2: $player2');
-    _logger.i('Player 3: $player3');
-    _logger.i('Player 4: $player4');
+    _logger.info('Player 1: $player1');
+    _logger.info('Player 2: $player2');
+    _logger.info('Player 3: $player3');
+    _logger.info('Player 4: $player4');
   }
 
   @override
@@ -81,8 +81,7 @@ class _RegisterPlayersState extends State<RegisterPlayers> {
     );
   }
 
-  Widget _buildPlayerInputField(
-      String label, TextEditingController controller) {
+  Widget _buildPlayerInputField(String label, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(

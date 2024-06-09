@@ -6,9 +6,17 @@
 // my_page_screen.dart
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'first_page.dart'; // FirstPage를 import
+import 'before_the_game_starts.dart'; // BeforeTheGameStarts를 import
+import 'mygamehistory_screen.dart';
+import 'friend_list_screen.dart';
+import 'my_information_screen.dart';
+import 'setting.dart';
 
 class MyPageScreen extends StatefulWidget {
-  const MyPageScreen({super.key, required String userName});
+  const MyPageScreen({super.key, required this.userName});
+
+  final String userName;
 
   @override
   MyPageScreenState createState() => MyPageScreenState();
@@ -61,43 +69,77 @@ class MyPageScreenState extends State<MyPageScreen> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Start game functionality
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const BeforeTheGameStarts(),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.lightGreen,
               ),
               child: const Text('경기하기'),
             ),
-            const SizedBox(height: 20),
-            ListTile(
-              leading: const Icon(Icons.article),
-              title: const Text('내 경기 기록'),
-              onTap: () {
-                // Navigate to game records screen
-              },
+            const SizedBox(height: 16),
+            Expanded(
+              child: ListView(
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.history),
+                    title: const Text('내 경기 기록'),
+                    trailing: const Icon(Icons.arrow_forward),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MyGameHistoryScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.group),
+                    title: const Text('친구 목록'),
+                    trailing: const Icon(Icons.arrow_forward),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const FriendListScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.person),
+                    title: const Text('개인정보 관리'),
+                    trailing: const Icon(Icons.arrow_forward),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MyInformationScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.settings),
+                    title: const Text('설정'),
+                    trailing: const Icon(Icons.arrow_forward),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SettingScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
-            ListTile(
-              leading: const Icon(Icons.people),
-              title: const Text('친구 목록'),
-              onTap: () {
-                // Navigate to friends list screen
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.person),
-              title: const Text('개인정보 관리'),
-              onTap: () {
-                // Navigate to personal information management screen
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('설정'),
-              onTap: () {
-                // Navigate to settings screen
-              },
-            ),
-            const Spacer(),
             TextButton(
               onPressed: () {
                 // Log out functionality
