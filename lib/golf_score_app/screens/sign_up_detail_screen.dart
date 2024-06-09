@@ -1,10 +1,7 @@
-/*
-작성자: 윤하겸
-작성일: 2024-05-21
-*/
 // 회원가입 2
 // 회원가입 1에서 모두 동의를 누른 뒤 다음 버튼을 누르면 넘어가는 페이지
-// sign_up_detail_screen.dart
+// 이름과 전화번호를 입력받음
+// 이름과 전화번호를 다 입력받아야 다음 버튼이 활성화됨
 // sign_up_detail_screen.dart
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,6 +17,20 @@ class SignUpDetailScreen extends StatefulWidget {
 class SignUpDetailScreenState extends State<SignUpDetailScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+  bool _isButtonEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController.addListener(_checkIfFieldsAreFilled);
+    phoneController.addListener(_checkIfFieldsAreFilled);
+  }
+
+  void _checkIfFieldsAreFilled() {
+    setState(() {
+      _isButtonEnabled = nameController.text.isNotEmpty && phoneController.text.isNotEmpty;
+    });
+  }
 
   Future<void> _saveName(String name) async {
     final prefs = await SharedPreferences.getInstance();
@@ -27,18 +38,20 @@ class SignUpDetailScreenState extends State<SignUpDetailScreen> {
   }
 
   void _onNextButtonPressed() async {
-    await _saveName(nameController.text);
+    if (_isButtonEnabled) {
+      await _saveName(nameController.text);
 
-    if (mounted) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SignUpEmailScreen(
-            name: nameController.text,
-            phoneNumber: phoneController.text,
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SignUpEmailScreen(
+              name: nameController.text,
+              phoneNumber: phoneController.text,
+            ),
           ),
-        ),
-      );
+        );
+      }
     }
   }
 
@@ -88,10 +101,10 @@ class SignUpDetailScreenState extends State<SignUpDetailScreen> {
             ),
             const Spacer(),
             ElevatedButton(
-              onPressed: _onNextButtonPressed,
+              onPressed: _isButtonEnabled ? _onNextButtonPressed : null,
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
-                backgroundColor: Colors.lightGreen, // 텍스트 색상
+                backgroundColor: _isButtonEnabled ? Colors.lightGreen : Colors.grey, // 텍스트 색상
                 minimumSize: const Size(double.infinity, 50), // 버튼 크기
               ),
               child: const Text('다음'),

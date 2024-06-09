@@ -6,19 +6,19 @@ class MakeAppBar {
   static AppBar build(BuildContext context) {
     return AppBar(
       leading: IconButton(
-        icon: Icon(Icons.arrow_back),
+        icon: const Icon(Icons.arrow_back),
         onPressed: () {
           Navigator.pop(context); // 뒤로 가기 버튼 동작
         },
       ),
       centerTitle: true,
       title: IconButton(
-        icon: Icon(Icons.home),
+        icon: const Icon(Icons.home),
         onPressed: () {
           // 홈 버튼 동작 (예: 홈 화면으로 이동)
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => HomeScreen()),
+            MaterialPageRoute(builder: (context) => const HomeScreen()),
                 (route) => false,
           );
         },

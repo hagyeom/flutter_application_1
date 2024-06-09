@@ -253,7 +253,7 @@ class _MyInformationState extends State<MyInformation> {
                 ],
               ),
             ),
-            SizedBox(width: 25),
+            const SizedBox(width: 25),
           ],
         ),
       ),
@@ -261,18 +261,6 @@ class _MyInformationState extends State<MyInformation> {
   }
 
   void _updateMemberData() {
-    final updatedMember = Member(
-      name: _nameController.text,
-      phoneNumber: _phoneNumberController.text,
-      id: _idController.text,
-      pw: _pwController.text,
-      memberCode: '0000',
-      totalHoles: 18,
-      wins: 5,
-      losses: 10,
-      draws: 3,
-      friends: ['김철수', '봉미선', '신짱구'],
-    );
   }
 
   void _deleteMemberData() {

@@ -13,7 +13,7 @@ class FirstPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFBFD98F),
+      backgroundColor: const Color(0xFFBFD98F),
       body: GestureDetector(
         onTap: () {
           Navigator.push(

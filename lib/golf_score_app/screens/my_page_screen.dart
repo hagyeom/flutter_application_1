@@ -1,10 +1,5 @@
-/*
-작성자: 윤하겸
-작성일: 2024-05-22
-*/
-// 마이 페이지
-// my_page_screen.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/golf_score_app/screens/wld_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'first_page.dart'; // FirstPage를 import
 import 'before_the_game_starts.dart'; // BeforeTheGameStarts를 import
@@ -12,6 +7,7 @@ import 'mygamehistory_screen.dart';
 import 'friend_list_screen.dart';
 import 'my_information_screen.dart';
 import 'setting.dart';
+import 'package:flutter_application_1/golf_score_app/models/member.dart'; // Member 클래스 import
 
 class MyPageScreen extends StatefulWidget {
   const MyPageScreen({super.key, required this.userName});
@@ -40,6 +36,23 @@ class MyPageScreenState extends State<MyPageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // 기본 Member 객체 생성
+    final member = Member(
+      name: '홍길동',
+      phoneNumber: '01000000000',
+      id: 'hong123@gmail.com',
+      pw: 'password',
+      memberCode: '0000',
+      totalHoles: 18,
+      wins: 5,
+      losses: 10,
+      draws: 3,
+      friends: ['김철수', '거북이', '두루미', '봉미선', '신짱구', '신형만'],
+    );
+
+    // 빈 게임 기록 리스트 생성
+    final List<WLDcard> gameRecords = [];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('마이페이지'),
@@ -93,7 +106,10 @@ class MyPageScreenState extends State<MyPageScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const MyGameHistoryScreen(),
+                          builder: (BuildContext context) => MyGameHistory(
+                            gameRecords: gameRecords,
+                            member: member,
+                          ),
                         ),
                       );
                     },
@@ -106,7 +122,7 @@ class MyPageScreenState extends State<MyPageScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const FriendListScreen(),
+                          builder: (context) => const FriendList(),
                         ),
                       );
                     },
@@ -119,7 +135,7 @@ class MyPageScreenState extends State<MyPageScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const MyInformationScreen(),
+                          builder: (context) => const MyInformation(),
                         ),
                       );
                     },
@@ -132,7 +148,7 @@ class MyPageScreenState extends State<MyPageScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const SettingScreen(),
+                          builder: (context) => const Setting(),
                         ),
                       );
                     },

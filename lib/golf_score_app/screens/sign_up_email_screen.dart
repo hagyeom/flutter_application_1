@@ -4,7 +4,8 @@
 */
 // 회원가입 3
 // 회원가입 2에서 이름과 전화번호를 입력받은 후, 다음 버튼을 누르면 넘어가는 페이지
-// sign_up_email_screen.dart
+// 로그인에 사용할 아이디(이메일)을 입력받는 페이지
+// 아이디를 입력받기 전까지는 다음 버튼이 비활성화됨
 // sign_up_email_screen.dart
 import 'package:flutter/material.dart';
 import 'sign_up_password_screen.dart';
@@ -22,6 +23,40 @@ class SignUpEmailScreen extends StatefulWidget {
 
 class SignUpEmailScreenState extends State<SignUpEmailScreen> {
   final TextEditingController emailController = TextEditingController();
+  bool _isButtonEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    emailController.addListener(_checkIfEmailIsFilled);
+  }
+
+  void _checkIfEmailIsFilled() {
+    setState(() {
+      _isButtonEnabled = emailController.text.isNotEmpty;
+    });
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
+  }
+
+  void _onNextButtonPressed() {
+    if (_isButtonEnabled) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SignUpPasswordScreen(
+            name: widget.name,
+            phoneNumber: widget.phoneNumber,
+            email: emailController.text,
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,22 +93,10 @@ class SignUpEmailScreenState extends State<SignUpEmailScreen> {
             const SizedBox(height: 16.0),
             Center(
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SignUpPasswordScreen(
-                        name: widget.name,
-                        phoneNumber: widget.phoneNumber,
-                        email: emailController.text,
-                      ),
-                    ),
-                  );
-                },
+                onPressed: _isButtonEnabled ? _onNextButtonPressed : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFCBD7B5), // Background color
-                  minimumSize:
-                      const Size(double.infinity, 48), // Full width button
+                  backgroundColor: _isButtonEnabled ? const Color(0xFFCBD7B5) : Colors.grey, // Background color
+                  minimumSize: const Size(double.infinity, 48), // Full width button
                 ),
                 child: const Text('다음'),
               ),
