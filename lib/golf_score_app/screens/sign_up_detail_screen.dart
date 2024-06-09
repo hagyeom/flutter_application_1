@@ -7,16 +7,50 @@
 // sign_up_detail_screen.dart
 // sign_up_detail_screen.dart
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'sign_up_email_screen.dart';
 
-class SignUpDetailScreen extends StatelessWidget {
+class SignUpDetailScreen extends StatefulWidget {
   const SignUpDetailScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    TextEditingController nameController = TextEditingController();
-    TextEditingController phoneController = TextEditingController();
+  SignUpDetailScreenState createState() => SignUpDetailScreenState();
+}
 
+class SignUpDetailScreenState extends State<SignUpDetailScreen> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+
+  Future<void> _saveName(String name) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userName', name);
+  }
+
+  void _onNextButtonPressed() async {
+    await _saveName(nameController.text);
+
+    if (mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SignUpEmailScreen(
+            name: nameController.text,
+            phoneNumber: phoneController.text,
+          ),
+        ),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    phoneController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('회원가입 진행'),
@@ -54,17 +88,7 @@ class SignUpDetailScreen extends StatelessWidget {
             ),
             const Spacer(),
             ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SignUpEmailScreen(
-                      name: nameController.text,
-                      phoneNumber: phoneController.text,
-                    ),
-                  ),
-                );
-              },
+              onPressed: _onNextButtonPressed,
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
                 backgroundColor: Colors.lightGreen, // 텍스트 색상
