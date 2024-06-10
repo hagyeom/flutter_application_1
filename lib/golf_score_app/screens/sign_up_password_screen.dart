@@ -1,15 +1,7 @@
-/*
-작성자: 윤하겸
-작성일: 2024-05-22
-*/
-// 회원가입 4
-// 로그인에 사용할 비밀번호를 입력받는 회원가입 진행 페이지
 // sign_up_password_screen.dart
-// 비밀번호를 다 입력받지 않으면 다음 버튼 비활성화됨
-// sign_up_password_screen.dart
+// 회원가입 마지막 단계: 비밀번호 입력
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/golf_score_app/models/member.dart';
-import 'package:flutter_application_1/golf_score_app/models/user.dart';
 import 'package:flutter_application_1/golf_score_app/models/user_repository.dart';
 import 'package:flutter_application_1/golf_score_app/screens/sign_up_complete_screen.dart';
 import 'package:flutter_application_1/golf_score_app/models/utils.dart';
@@ -62,21 +54,9 @@ class SignUpPasswordScreenState extends State<SignUpPasswordScreen> {
         memberCode: memberCode,
       );
 
-      User newUser = User(
-        name: widget.name,
-        phoneNumber: widget.phoneNumber,
-        email: widget.email,
-        password: passwordController.text,
-      );
-
-      // Save the user using UserRepository
-      UserRepository userRepository = UserRepository();
-      userRepository.addUser(newUser);
-
-      // Save the member
-      // Assuming you have a MemberRepository or similar to save the Member object
-      // MemberRepository memberRepository = MemberRepository();
-      // memberRepository.addMember(newMember);
+      // Save the member using MemberRepository
+      MemberRepository memberRepository = MemberRepository();
+      memberRepository.addMember(newMember);
 
       // Navigate to the complete screen
       Navigator.push(
@@ -94,7 +74,7 @@ class SignUpPasswordScreenState extends State<SignUpPasswordScreen> {
           content: const Text('Passwords do not match'),
           actions: <Widget>[
             TextButton(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => Navigator.of(context). pop(),
               child: const Text('OK'),
             ),
           ],

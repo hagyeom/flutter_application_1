@@ -1,5 +1,7 @@
 // user_repository.dart
 // 유저 모델을 관리하는 저장소
+import 'package:flutter_application_1/golf_score_app/models/member.dart';
+
 import 'user.dart';
 
 class UserRepository {
@@ -46,5 +48,20 @@ class UserRepository {
     } catch (e) {
       return null;
     }
+  }
+}
+
+class MemberRepository {
+  static final MemberRepository _instance = MemberRepository._internal();
+  final List<Member> _members = [];
+
+  factory MemberRepository() {
+    return _instance;
+  }
+
+  MemberRepository._internal();
+
+  void addMember(Member member) {
+    _members.add(member);
   }
 }
