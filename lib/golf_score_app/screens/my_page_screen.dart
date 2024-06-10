@@ -1,3 +1,4 @@
+// my_page_screen.dart
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'before_the_game_starts.dart';
@@ -5,6 +6,7 @@ import 'mygamehistory_screen.dart';
 import 'friend_list_screen.dart';
 import 'my_information_screen.dart';
 import 'setting.dart';
+import 'login_screen.dart'; // 로그인 화면 import
 import 'package:flutter_application_1/golf_score_app/models/member.dart'; // Member 클래스 import
 import 'package:flutter_application_1/golf_score_app/screens/wld_card.dart'; // WLDcard import
 
@@ -19,6 +21,7 @@ class MyPageScreen extends StatefulWidget {
 
 class MyPageScreenState extends State<MyPageScreen> {
   String _userName = '';
+
   @override
   void initState() {
     super.initState();
@@ -30,6 +33,16 @@ class MyPageScreenState extends State<MyPageScreen> {
     setState(() {
       _userName = prefs.getString('userName') ?? '회원';
     });
+  }
+
+  Future<void> _logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('userName');
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+          (route) => false,
+    );
   }
 
   @override
@@ -155,9 +168,7 @@ class MyPageScreenState extends State<MyPageScreen> {
               ),
             ),
             TextButton(
-              onPressed: () {
-                // Log out functionality
-              },
+              onPressed: _logout,
               child: const Text('로그아웃'),
             ),
           ],

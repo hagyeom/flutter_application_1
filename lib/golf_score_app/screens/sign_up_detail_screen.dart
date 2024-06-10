@@ -1,3 +1,7 @@
+// sign_up_detail.screen.dart
+// 회원가입페이지 2
+// 회원가입을 위한 이름과 전화번호를 입력받는 페이지
+// sign_up_detail_screen.dart
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'sign_up_email_screen.dart';

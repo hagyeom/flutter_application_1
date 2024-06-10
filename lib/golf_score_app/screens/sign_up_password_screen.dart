@@ -6,10 +6,13 @@
 // 로그인에 사용할 비밀번호를 입력받는 회원가입 진행 페이지
 // sign_up_password_screen.dart
 // 비밀번호를 다 입력받지 않으면 다음 버튼 비활성화됨
+// sign_up_password_screen.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/golf_score_app/models/member.dart';
 import 'package:flutter_application_1/golf_score_app/models/user.dart';
 import 'package:flutter_application_1/golf_score_app/models/user_repository.dart';
 import 'package:flutter_application_1/golf_score_app/screens/sign_up_complete_screen.dart';
+import 'package:flutter_application_1/golf_score_app/models/utils.dart';
 
 class SignUpPasswordScreen extends StatefulWidget {
   final String name;
@@ -49,6 +52,16 @@ class SignUpPasswordScreenState extends State<SignUpPasswordScreen> {
 
   void _completeSignUp() {
     if (passwordController.text == confirmPasswordController.text) {
+      String memberCode = generateMemberCode();
+
+      Member newMember = Member(
+        name: widget.name,
+        phoneNumber: widget.phoneNumber,
+        id: widget.email,
+        pw: passwordController.text,
+        memberCode: memberCode,
+      );
+
       User newUser = User(
         name: widget.name,
         phoneNumber: widget.phoneNumber,
@@ -60,11 +73,16 @@ class SignUpPasswordScreenState extends State<SignUpPasswordScreen> {
       UserRepository userRepository = UserRepository();
       userRepository.addUser(newUser);
 
+      // Save the member
+      // Assuming you have a MemberRepository or similar to save the Member object
+      // MemberRepository memberRepository = MemberRepository();
+      // memberRepository.addMember(newMember);
+
       // Navigate to the complete screen
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const SignUpCompleteScreen(),
+          builder: (context) => SignUpCompleteScreen(memberCode: memberCode),
         ),
       );
     } else {

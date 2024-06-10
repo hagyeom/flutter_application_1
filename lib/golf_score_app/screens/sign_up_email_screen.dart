@@ -7,6 +7,7 @@
 // 로그인에 사용할 아이디(이메일)을 입력받는 페이지
 // 아이디를 입력받기 전까지는 다음 버튼이 비활성화됨
 // sign_up_email_screen.dart
+// sign_up_email_screen.dart
 import 'package:flutter/material.dart';
 import 'sign_up_password_screen.dart';
 
@@ -75,19 +76,22 @@ class SignUpEmailScreenState extends State<SignUpEmailScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: [
             const LinearProgressIndicator(
-                value: 0.5), // Progress indicator for the sign-up process
+              value: 0.5,
+            ),
             const SizedBox(height: 16.0),
             const Text(
-              '로그인에 사용할 아이디를 입력해주세요.',
+              '로그인에 사용할 이메일을 입력해주세요.',
               style: TextStyle(fontSize: 16.0),
             ),
             const SizedBox(height: 16.0),
             TextField(
               controller: emailController,
               decoration: const InputDecoration(
-                labelText: '아이디 (이메일) 입력',
+                labelText: '이메일 입력',
+                hintText: '이메일 주소',
+                border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 16.0),
@@ -95,8 +99,9 @@ class SignUpEmailScreenState extends State<SignUpEmailScreen> {
               child: ElevatedButton(
                 onPressed: _isButtonEnabled ? _onNextButtonPressed : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: _isButtonEnabled ? const Color(0xFFCBD7B5) : Colors.grey, // Background color
-                  minimumSize: const Size(double.infinity, 48), // Full width button
+                  backgroundColor:
+                  _isButtonEnabled ? const Color(0xFFCBD7B5) : Colors.grey,
+                  minimumSize: const Size(double.infinity, 48),
                 ),
                 child: const Text('다음'),
               ),
