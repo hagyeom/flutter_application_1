@@ -1,14 +1,15 @@
+// member.dart
 class Member {
-  final String name;//이름
-  final String phoneNumber;//전화번호
-  final String id;//아이디
-  final String pw;//비밀번호
-  final String memberCode;//회원코드
-  int totalHoles;//총 홀 수
-  int wins;//승
-  int losses;//패
-  int draws;//무
-  List<String> friends;//친구목록
+  final String name; // 이름
+  final String phoneNumber; // 전화번호
+  final String id; // 아이디
+  final String pw; // 비밀번호
+  final String memberCode; // 회원코드
+  int totalHoles; // 총 홀 수
+  int wins; // 승
+  int losses; // 패
+  int draws; // 무
+  List<String> friends; // 친구목록
 
   Member({
     required this.name,

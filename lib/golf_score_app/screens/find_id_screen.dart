@@ -4,7 +4,9 @@
 */
 // 아이디 찾기
 // 아이디 찾기 버튼 누를 시 '사용하신 아이디는' 팝업창을 띄움
+// find_id_screen.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/golf_score_app/models/user_repository.dart';
 import 'package:flutter_application_1/golf_score_app/screens/find_password_screen.dart';
 
 class FindIDScreen extends StatelessWidget {
@@ -50,6 +52,9 @@ class FindIDScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final nameController = TextEditingController();
+    final phoneNumberController = TextEditingController();
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -82,18 +87,20 @@ class FindIDScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 16),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.all(16.0),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
               child: TextField(
-                decoration: InputDecoration(
+                controller: nameController,
+                decoration: const InputDecoration(
                   labelText: '사용하신 이름을 입력해주세요.',
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.all(16.0),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
               child: TextField(
-                decoration: InputDecoration(
+                controller: phoneNumberController,
+                decoration: const InputDecoration(
                   labelText: '사용하신 전화번호를 입력해주세요.',
                   hintText: '전화번호 입력 ( - 제외 )',
                 ),
@@ -103,9 +110,32 @@ class FindIDScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
                 onPressed: () {
-                  // 예시: 실제로는 서버와 통신하여 아이디를 가져와야 합니다.
-                  String userId = "jkim@tu.ac.kr";
-                  _showIDDialog(context, userId);
+                  String name = nameController.text;
+                  String phoneNumber = phoneNumberController.text;
+
+                  UserRepository userRepository = UserRepository();
+                  var user = userRepository.findUserByNameAndPhoneNumber(name, phoneNumber);
+
+                  if (user != null) {
+                    _showIDDialog(context, user.email);
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          content: const Text('해당 정보로 등록된 아이디를 찾을 수 없습니다.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('확인'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFCBD7B5),

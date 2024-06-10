@@ -4,6 +4,7 @@
 */
 // 로그인 페이지
 // login_screen.dart
+// 네이버, 카카오톡, 구글, 페이스북 아이콘 크기 조절
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/golf_score_app/screens/my_page_screen.dart';
 import 'find_id_screen.dart';
@@ -48,8 +49,8 @@ class LoginScreenState extends State<LoginScreen> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const MyPageScreen(
-                              userName: '',
-                            )));
+                          userName: '',
+                        )));
               },
               child: const Text('확인'),
             ),
@@ -152,7 +153,7 @@ class LoginScreenState extends State<LoginScreen> {
                         );
                       },
                       style:
-                          TextButton.styleFrom(foregroundColor: Colors.white),
+                      TextButton.styleFrom(foregroundColor: Colors.white),
                       child: const Text('회원가입하기'),
                     ),
                     TextButton(
@@ -164,7 +165,7 @@ class LoginScreenState extends State<LoginScreen> {
                         );
                       },
                       style:
-                          TextButton.styleFrom(foregroundColor: Colors.white),
+                      TextButton.styleFrom(foregroundColor: Colors.white),
                       child: const Text('아이디/비밀번호 찾기'),
                     ),
                   ],

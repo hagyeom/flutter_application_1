@@ -4,7 +4,7 @@ import 'package:flutter_application_1/golf_score_app/models/member.dart';
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
 }
 
 class FriendList extends StatefulWidget {
-  const FriendList({Key? key}) : super(key: key);
+  const FriendList({super.key});
 
   @override
   _FriendList createState() => _FriendList();
@@ -312,7 +312,7 @@ class _FriendList extends State<FriendList> {
                     left: 28,
                     child: Row(
                       children: [
-                        Text(
+                        const Text(
                           '친구',
                           style: TextStyle(fontSize: 12),
                         ),
@@ -419,6 +419,9 @@ class _FriendList extends State<FriendList> {
             Container(
               height: 100,
               alignment: Alignment.centerRight,
+              decoration: BoxDecoration(
+                color: Color(0xFFEFEEEE),
+              ),
               child: Container(
                 margin: EdgeInsets.only(right: 21),
                 child: ElevatedButton(
@@ -478,9 +481,6 @@ class _FriendList extends State<FriendList> {
                     ),
                   ),
                 ),
-              ),
-              decoration: BoxDecoration(
-                color: Color(0xFFEFEEEE),
               ),
             ),
           ],

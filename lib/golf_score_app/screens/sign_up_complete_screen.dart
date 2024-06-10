@@ -4,11 +4,15 @@
 */
 // 회원가입 완료
 // 회원가입 완료 화면 한 번 클릭 시 로그인 화면으로 돌아감
+// sign_up_complete_screen.dart
+// sign_up_complete_screen.dart
 import 'package:flutter/material.dart';
 import 'login_screen.dart'; // Import the login screen
 
 class SignUpCompleteScreen extends StatelessWidget {
-  const SignUpCompleteScreen({super.key});
+  final String memberCode;
+
+  const SignUpCompleteScreen({super.key, required this.memberCode});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +22,7 @@ class SignUpCompleteScreen extends StatelessWidget {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const LoginScreen()),
-            (Route<dynamic> route) => false,
+                (Route<dynamic> route) => false,
           );
         },
         child: Container(
