@@ -106,11 +106,19 @@ class MyGameHistory extends StatefulWidget {
 
 class _MyGameHistoryState extends State<MyGameHistory> {
   String? _selectedValue = '전체';
+  bool _isAscending = true;
 
   @override
   void initState() {
     super.initState();
     _initializeFilteredGameRecords(_selectedValue); // 초기값 설정
+  }
+
+  void _toggleSortOrder() {
+    setState(() {
+      _isAscending = !_isAscending;
+      widget._filteredGameRecords = widget._filteredGameRecords.reversed.toList();
+    });
   }
 
   void _initializeFilteredGameRecords(String? selectedValue) {
@@ -248,18 +256,16 @@ class _MyGameHistoryState extends State<MyGameHistory> {
                               Padding(
                                 padding: const EdgeInsets.only(right: 10),
                                 child: TextButton.icon(
-                                  onPressed: () {
-                                    // Add your onPressed logic here
-                                  },
-                                  icon: const Icon(Icons.keyboard_arrow_down),
-                                  label: const Text(
-                                    '최신순',
-                                    style: TextStyle(
+                                  onPressed: _toggleSortOrder,
+                                  icon: Icon(_isAscending ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_up),
+                                  label: Text(
+                                    _isAscending ? '오래된순' : '최신순',
+                                    style: const TextStyle(
                                       fontSize: 13,
                                     ),
                                   ),
                                 ),
-                              ),
+                              )
                             ],
                           ),
                         ),
