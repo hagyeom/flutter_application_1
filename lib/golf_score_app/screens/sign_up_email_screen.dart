@@ -1,28 +1,20 @@
-/*
-작성자: 윤하겸
-작성일: 2024-05-21
-*/
+// sign_up_email_screen.dart
 // 회원가입 3
 // 회원가입 2에서 이름과 전화번호를 입력받은 후, 다음 버튼을 누르면 넘어가는 페이지
 // 로그인에 사용할 아이디(이메일)을 입력받는 페이지
 // 아이디를 입력받기 전까지는 다음 버튼이 비활성화됨
-// sign_up_email_screen.dart
-// sign_up_email_screen.dart
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'sign_up_password_screen.dart';
 
 class SignUpEmailScreen extends StatefulWidget {
-  final String name;
-  final String phoneNumber;
-
-  const SignUpEmailScreen(
-      {super.key, required this.name, required this.phoneNumber});
+  const SignUpEmailScreen({Key? key});
 
   @override
-  SignUpEmailScreenState createState() => SignUpEmailScreenState();
+  _SignUpEmailScreenState createState() => _SignUpEmailScreenState();
 }
 
-class SignUpEmailScreenState extends State<SignUpEmailScreen> {
+class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
   final TextEditingController emailController = TextEditingController();
   bool _isButtonEnabled = false;
 
@@ -38,25 +30,30 @@ class SignUpEmailScreenState extends State<SignUpEmailScreen> {
     });
   }
 
+  Future<void> _saveEmail(String email) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userEmail', email);
+  }
+
+  void _onNextButtonPressed() async {
+    if (_isButtonEnabled) {
+      await _saveEmail(emailController.text);
+
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const SignUpPasswordScreen(name: '', phoneNumber: '', email: '',),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   void dispose() {
     emailController.dispose();
     super.dispose();
-  }
-
-  void _onNextButtonPressed() {
-    if (_isButtonEnabled) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SignUpPasswordScreen(
-            name: widget.name,
-            phoneNumber: widget.phoneNumber,
-            email: emailController.text,
-          ),
-        ),
-      );
-    }
   }
 
   @override

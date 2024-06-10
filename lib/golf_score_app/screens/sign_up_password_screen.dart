@@ -1,10 +1,10 @@
 // sign_up_password_screen.dart
-// 회원가입 마지막 단계: 비밀번호 입력
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/golf_score_app/models/member.dart';
 import 'package:flutter_application_1/golf_score_app/models/user_repository.dart';
 import 'package:flutter_application_1/golf_score_app/screens/sign_up_complete_screen.dart';
 import 'package:flutter_application_1/golf_score_app/models/utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpPasswordScreen extends StatefulWidget {
   final String name;
@@ -12,11 +12,11 @@ class SignUpPasswordScreen extends StatefulWidget {
   final String email;
 
   const SignUpPasswordScreen({
-    super.key,
+    Key? key,
     required this.name,
     required this.phoneNumber,
     required this.email,
-  });
+  }) : super(key: key);
 
   @override
   SignUpPasswordScreenState createState() => SignUpPasswordScreenState();
@@ -24,7 +24,8 @@ class SignUpPasswordScreen extends StatefulWidget {
 
 class SignUpPasswordScreenState extends State<SignUpPasswordScreen> {
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+  TextEditingController();
   bool isPasswordVisible = false;
   bool isConfirmPasswordVisible = false;
   bool _isButtonEnabled = false;
@@ -38,11 +39,12 @@ class SignUpPasswordScreenState extends State<SignUpPasswordScreen> {
 
   void _checkIfPasswordsAreFilled() {
     setState(() {
-      _isButtonEnabled = passwordController.text.isNotEmpty && confirmPasswordController.text.isNotEmpty;
+      _isButtonEnabled = passwordController.text.isNotEmpty &&
+          confirmPasswordController.text.isNotEmpty;
     });
   }
 
-  void _completeSignUp() {
+  void _completeSignUp() async {
     if (passwordController.text == confirmPasswordController.text) {
       String memberCode = generateMemberCode();
 
@@ -57,6 +59,10 @@ class SignUpPasswordScreenState extends State<SignUpPasswordScreen> {
       // Save the member using MemberRepository
       MemberRepository memberRepository = MemberRepository();
       memberRepository.addMember(newMember);
+
+      // Save password to SharedPreferences
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('password', passwordController.text);
 
       // Navigate to the complete screen
       Navigator.push(
@@ -74,7 +80,7 @@ class SignUpPasswordScreenState extends State<SignUpPasswordScreen> {
           content: const Text('Passwords do not match'),
           actions: <Widget>[
             TextButton(
-              onPressed: () => Navigator.of(context). pop(),
+              onPressed: () => Navigator.of(context).pop(),
               child: const Text('OK'),
             ),
           ],
@@ -123,7 +129,9 @@ class SignUpPasswordScreenState extends State<SignUpPasswordScreen> {
                 labelText: '비밀번호 입력',
                 suffixIcon: IconButton(
                   icon: Icon(
-                    isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    isPasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off,
                   ),
                   onPressed: () {
                     setState(() {
@@ -142,11 +150,14 @@ class SignUpPasswordScreenState extends State<SignUpPasswordScreen> {
                 labelText: '비밀번호 확인',
                 suffixIcon: IconButton(
                   icon: Icon(
-                    isConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    isConfirmPasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off,
                   ),
                   onPressed: () {
                     setState(() {
-                      isConfirmPasswordVisible = !isConfirmPasswordVisible;
+                      isConfirmPasswordVisible =
+                      !isConfirmPasswordVisible;
                     });
                   },
                 ),
@@ -156,10 +167,14 @@ class SignUpPasswordScreenState extends State<SignUpPasswordScreen> {
             const SizedBox(height: 16.0),
             Center(
               child: ElevatedButton(
-                onPressed: _isButtonEnabled ? _completeSignUp : null,
+                onPressed:
+                _isButtonEnabled ? _completeSignUp : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: _isButtonEnabled ? const Color(0xFFCBD7B5) : Colors.grey, // Background color
-                  minimumSize: const Size(double.infinity, 48), // Full width button
+                  backgroundColor: _isButtonEnabled
+                      ? const Color(0xFFCBD7B5)
+                      : Colors.grey, // Background color
+                  minimumSize:
+                  const Size(double.infinity, 48), // Full width button
                 ),
                 child: const Text('다음'),
               ),

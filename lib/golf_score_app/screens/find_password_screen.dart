@@ -1,150 +1,159 @@
-/*
-작성자: 윤하겸
-작성일: 2024-05-24
-*/
 // 비밀번호 찾기
-// 비밀번호 찾기 버튼을 눌렀을 때 팝업 창을 띄우고
-// 팝업 창을 닫을 수 있도록 구현
-// 팝업 창을 닫은 후 로그인 화면 (login_screen.dart)으로 돌아감
-// find_password_screen.dart
+// 비밀번호 찾기 버튼 누르면 버튼 밑에 회원정보와 해당되는 비밀번호가 뜸
+// 그거를 누르면 로그인 페이지로 이동
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/golf_score_app/models/user_repository.dart';
-import 'package:flutter_application_1/golf_score_app/screens/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'login_screen.dart'; // 로그인 화면 import
 
-class FindPasswordScreen extends StatelessWidget {
-  const FindPasswordScreen({super.key});
+class FindPasswordScreen extends StatefulWidget {
+  const FindPasswordScreen({Key? key}) : super(key: key);
 
-  void _showPasswordDialog(BuildContext context, String password) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                '사용하신 비밀번호는',
-                style: TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                password,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
-                ),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginScreen(),
-                    ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFCBD7B5),
-                ),
-                child: const Text('확인'),
-              ),
-            ],
-          ),
-        );
-      },
-    );
+  @override
+  _FindPasswordScreenState createState() => _FindPasswordScreenState();
+}
+
+class _FindPasswordScreenState extends State<FindPasswordScreen> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  bool _isButtonEnabled = false;
+  String? _foundPassword;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController.addListener(_checkIfFieldsAreFilled);
+    phoneController.addListener(_checkIfFieldsAreFilled);
+    emailController.addListener(_checkIfFieldsAreFilled);
+  }
+
+  void _checkIfFieldsAreFilled() {
+    setState(() {
+      _isButtonEnabled =
+          nameController.text.isNotEmpty &&
+              phoneController.text.isNotEmpty &&
+              emailController.text.isNotEmpty;
+    });
+  }
+
+  Future<void> _findPassword() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? storedName = prefs.getString('userName');
+    final String? storedPhone = prefs.getString('userPhone');
+    final String? storedEmail = prefs.getString('userEmail');
+    final String? storedPassword = prefs.getString('password');
+
+    if (storedName == nameController.text &&
+        storedPhone == phoneController.text &&
+        storedEmail == emailController.text) {
+      setState(() {
+        _foundPassword = storedPassword;
+      });
+    } else {
+      setState(() {
+        _foundPassword = null;
+      });
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Error'),
+          content: const Text(
+              'No matching account found. Please check your details and try again.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    phoneController.dispose();
+    emailController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final nameController = TextEditingController();
-    final phoneNumberController = TextEditingController();
-    final emailController = TextEditingController();
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('비밀번호 찾기'),
+        title: const Text('Find Password'),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text(
-              '회원 정보에 입력한 본인 정보로 비밀번호를 찾습니다.',
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              controller: nameController,
-              decoration: const InputDecoration(
-                labelText: '사용하신 이름을 입력해주세요.',
+      body: GestureDetector(
+        onTap: () {
+          if (_foundPassword != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginScreen()),
+            );
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Please enter your name, phone number, and email to find your password.',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              controller: phoneNumberController,
-              decoration: const InputDecoration(
-                labelText: '사용하신 전화번호를 입력해주세요.',
-                hintText: '전화번호 입력 ( - 제외 )',
+              const SizedBox(height: 16),
+              TextField(
+                controller: nameController,
+                decoration: const InputDecoration(
+                  labelText: 'Enter your name',
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              controller: emailController,
-              decoration: const InputDecoration(
-                labelText: '사용하신 아이디(이메일)을 입력해주세요.',
+              const SizedBox(height: 16),
+              TextField(
+                controller: phoneController,
+                decoration: const InputDecoration(
+                  labelText: 'Enter your phone number (without -)',
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
-              onPressed: () {
-                String name = nameController.text;
-                String phoneNumber = phoneNumberController.text;
-                String email = emailController.text;
-
-                UserRepository userRepository = UserRepository();
-                var user = userRepository.findUserByNamePhoneAndEmail(name, phoneNumber, email);
-
-                if (user != null) {
-                  _showPasswordDialog(context, user.password);
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        content: const Text('해당 정보로 등록된 비밀번호를 찾을 수 없습니다.'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text('확인'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFCBD7B5),
+              const SizedBox(height: 16),
+              TextField(
+                controller: emailController,
+                decoration: const InputDecoration(
+                  labelText: 'Enter your email',
+                  border: OutlineInputBorder(),
+                ),
               ),
-              child: const Center(child: Text('비밀번호 찾기')),
-            ),
+              const Spacer(),
+              ElevatedButton(
+                onPressed: _isButtonEnabled ? _findPassword : null,
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor:
+                  _isButtonEnabled ? Colors.lightGreen : Colors.grey,
+                  minimumSize: const Size(double.infinity, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: const Text('Find Password'),
+              ),
+              if (_foundPassword != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: Text(
+                    'Your password is: $_foundPassword',
+                    style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green),
+                  ),
+                ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

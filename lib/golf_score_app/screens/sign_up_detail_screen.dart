@@ -7,13 +7,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'sign_up_email_screen.dart';
 
 class SignUpDetailScreen extends StatefulWidget {
-  const SignUpDetailScreen({super.key});
+  const SignUpDetailScreen({Key? key});
 
   @override
-  SignUpDetailScreenState createState() => SignUpDetailScreenState();
+  _SignUpDetailScreenState createState() => _SignUpDetailScreenState();
 }
 
-class SignUpDetailScreenState extends State<SignUpDetailScreen> {
+class _SignUpDetailScreenState extends State<SignUpDetailScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   bool _isButtonEnabled = false;
@@ -31,23 +31,21 @@ class SignUpDetailScreenState extends State<SignUpDetailScreen> {
     });
   }
 
-  Future<void> _saveName(String name) async {
+  Future<void> _saveNameAndPhone(String name, String phone) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('userName', name);
+    await prefs.setString('userPhone', phone);
   }
 
   void _onNextButtonPressed() async {
     if (_isButtonEnabled) {
-      await _saveName(nameController.text);
+      await _saveNameAndPhone(nameController.text, phoneController.text);
 
       if (mounted) {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SignUpEmailScreen(
-              name: nameController.text,
-              phoneNumber: phoneController.text,
-            ),
+            builder: (context) => SignUpEmailScreen(),
           ),
         );
       }
