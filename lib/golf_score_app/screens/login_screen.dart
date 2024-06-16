@@ -1,8 +1,11 @@
+// login_screen.dart
+// 로그인 페이지
+// 로그인 문제 수정
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/golf_score_app/screens/my_page_screen.dart';
 import 'find_id_screen.dart';
 import 'sign_up_screen.dart'; // SignUpScreen을 import
-import 'package:flutter_application_1/golf_score_app/models/user_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -18,14 +21,12 @@ class LoginScreenState extends State<LoginScreen> {
   bool _isObscured = true;
   final double sizenum = 40; //아이콘 크기 변수
 
-  void _login() {
-    UserRepository userRepository = UserRepository();
-    var user = userRepository.authenticate(
-      emailController.text,
-      passwordController.text,
-    );
+  Future<void> _login() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? storedEmail = prefs.getString('userEmail');
+    String? storedPassword = prefs.getString('password');
 
-    if (user != null) {
+    if (emailController.text == storedEmail && passwordController.text == storedPassword) {
       setState(() {
         isLoginFailed = false;
       });
@@ -43,7 +44,7 @@ class LoginScreenState extends State<LoginScreen> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => const MyPageScreen(
-                      userName: '',
+                      userName: '', // 필요한 경우 사용자 이름을 전달
                     ),
                   ),
                 );
@@ -84,7 +85,7 @@ class LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   const Text(
                     '로그인',
                     style: TextStyle(
@@ -165,7 +166,7 @@ class LoginScreenState extends State<LoginScreen> {
                           );
                         },
                         style:
-                            TextButton.styleFrom(foregroundColor: Colors.white),
+                        TextButton.styleFrom(foregroundColor: Colors.white),
                         child: const Text('회원가입하기'),
                       ),
                       TextButton(
@@ -177,7 +178,7 @@ class LoginScreenState extends State<LoginScreen> {
                           );
                         },
                         style:
-                            TextButton.styleFrom(foregroundColor: Colors.white),
+                        TextButton.styleFrom(foregroundColor: Colors.white),
                         child: const Text('아이디/비밀번호 찾기'),
                       ),
                     ],
