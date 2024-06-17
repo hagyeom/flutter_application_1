@@ -56,13 +56,13 @@ class _FindPasswordScreenState extends State<FindPasswordScreen> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Error'),
+          title: const Text('오류'),
           content: const Text(
-              'No matching account found. Please check your details and try again.'),
+              '비밀번호를 찾을 수 없습니다. 잘못 입력하신 부분이 없는지 확인해주세요.'),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('OK'),
+              child: const Text('예'),
             ),
           ],
         ),
@@ -82,7 +82,7 @@ class _FindPasswordScreenState extends State<FindPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Find Password'),
+        title: const Text('비밀번호 찾기'),
       ),
       body: GestureDetector(
         onTap: () {
@@ -99,30 +99,42 @@ class _FindPasswordScreenState extends State<FindPasswordScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Please enter your name, phone number, and email to find your password.',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                '회원 정보에 입력한 본인 정보로 비밀번호를 찾습니다.',
+                style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
+              const Text(
+                '1. 사용하신 이름을 입력해주세요.',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
               TextField(
                 controller: nameController,
                 decoration: const InputDecoration(
-                  labelText: 'Enter your name',
+                  labelText: '이름 입력',
                   border: OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 16),
+              const Text(
+                '2. 사용하신 전화번호을 입력해주세요.',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
               TextField(
                 controller: phoneController,
                 decoration: const InputDecoration(
-                  labelText: 'Enter your phone number (without -)',
+                  labelText: '전화번호 입력 ( - 제외 )',
                   border: OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 16),
+              const Text(
+                '3. 사용하신 아이디(이메일)을 입력해주세요.',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
               TextField(
                 controller: emailController,
                 decoration: const InputDecoration(
-                  labelText: 'Enter your email',
+                  labelText: '아이디 (이메일) 입력',
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -131,22 +143,21 @@ class _FindPasswordScreenState extends State<FindPasswordScreen> {
                 onPressed: _isButtonEnabled ? _findPassword : null,
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
-                  backgroundColor:
-                  _isButtonEnabled ? Colors.lightGreen : Colors.grey,
-                  minimumSize: const Size(double.infinity, 50),
+                  backgroundColor: _isButtonEnabled ? const Color(0xFFB9CA98) : Colors.grey,
+                  minimumSize: const Size(double.infinity, 56),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Text('Find Password'),
+                child: const Text('비밀번호 찾기'),
               ),
               if (_foundPassword != null)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: Text(
-                    'Your password is: $_foundPassword',
+                    '당신의 비밀번호는 $_foundPassword 입니다. \n(로그인 화면으로 넘어가기를 원하신다면 여기를 클릭해주세요)',
                     style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.green),
                   ),

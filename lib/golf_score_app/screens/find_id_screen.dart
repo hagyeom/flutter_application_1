@@ -52,12 +52,12 @@ class _FindIdScreenState extends State<FindIdScreen> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Error'),
-          content: const Text('No matching ID found. Please check your details and try again.'),
+          title: const Text('오류'),
+          content: const Text('아이디를 찾을 수 없습니다. 잘못 입력하신 부분이 없는지 확인해주세요.'),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('OK'),
+              child: const Text('예'),
             ),
           ],
         ),
@@ -76,7 +76,7 @@ class _FindIdScreenState extends State<FindIdScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Find ID'),
+        title: const Text('아이디 찾기'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -100,22 +100,30 @@ class _FindIdScreenState extends State<FindIdScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Please enter your name and phone number to find your ID.',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                '회원정보에 입력한 본인 정보로 아이디를 찾습니다.',
+                style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
+              const Text(
+                '1. 사용하신 이름을 입력해주세요.',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
               TextField(
                 controller: nameController,
                 decoration: const InputDecoration(
-                  labelText: 'Enter your name',
+                  labelText: '이름 입력',
                   border: OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 16),
+              const Text(
+                '2. 사용하신 전화번호을 입력해주세요.',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
               TextField(
                 controller: phoneController,
                 decoration: const InputDecoration(
-                  labelText: 'Enter your phone number (without -)',
+                  labelText: '전화번호 입력 ( - 제외 )',
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -124,19 +132,19 @@ class _FindIdScreenState extends State<FindIdScreen> {
                 onPressed: _isButtonEnabled ? _findEmail : null,
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
-                  backgroundColor: _isButtonEnabled ? Colors.lightGreen : Colors.grey,
-                  minimumSize: const Size(double.infinity, 50),
+                  backgroundColor: _isButtonEnabled ? const Color(0xFFB9CA98) : Colors.grey,
+                  minimumSize: const Size(double.infinity, 56),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Text('Find ID'),
+                child: const Text('아이디 찾기'),
               ),
               const SizedBox(height: 16),
               if (_foundEmail != null && _showPasswordButton)
                 Text(
-                  'Your ID is: $_foundEmail',
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.green),
+                  '당신의 아이디는 $_foundEmail 입니다. \n(비빌번호를 찾기를 원하신다면 여기를 클릭해주세요)',
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.green),
                 ),
               const SizedBox(height: 50),
             ],
