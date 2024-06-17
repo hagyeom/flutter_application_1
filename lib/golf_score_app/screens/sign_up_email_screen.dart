@@ -91,14 +91,17 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                 border: OutlineInputBorder(),
               ),
             ),
-            const SizedBox(height: 16.0),
+            const SizedBox(height: 100),
             Center(
               child: ElevatedButton(
                 onPressed: _isButtonEnabled ? _onNextButtonPressed : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                  _isButtonEnabled ? const Color(0xFFCBD7B5) : Colors.grey,
-                  minimumSize: const Size(double.infinity, 48),
+                  foregroundColor: Colors.white,
+                  backgroundColor: _isButtonEnabled ? const Color(0xFFB9CA98) : Colors.grey,
+                  minimumSize: const Size(double.infinity, 56),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
                 child: const Text('다음'),
               ),
