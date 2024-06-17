@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'hole_input.dart';
 
 class ScoreCard extends StatelessWidget {
-  final List<String> players = ['Player 1', 'Player 2', 'Player 3', 'Player 4'];
+  final List<String> players = ['홍길동', '김철수', '신형만', '거북이'];
 
   int calculateTotalScore(List<int> scores) {
     return scores.fold(0, (sum, score) => sum + score);
@@ -23,7 +23,7 @@ class ScoreCard extends StatelessWidget {
             Row(
               children: [
                 Image.asset(
-                  'assets/images/sparkles.png',
+                  'assets/sparkles.png',
                   width: 80,
                   height: 100,
                 ),
@@ -40,23 +40,23 @@ class ScoreCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Image.asset('assets/images/1등.png'),
+                        Image.asset('assets/1등.png'),
                         Text(players[0]),
                       ],
                     ),
                     Row(
                       children: [
-                        Image.asset('assets/images/2등.png'),
+                        Image.asset('assets/2등.png'),
                       ],
                     ),
                     Row(
                       children: [
-                        Image.asset('assets/images/3등.png'),
+                        Image.asset('assets/3등.png'),
                       ],
                     ),
                     Row(
                       children: [
-                        Image.asset('assets/images/4등.png'),
+                        Image.asset('assets/4등.png'),
                       ],
                     ),
                   ],
@@ -66,7 +66,7 @@ class ScoreCard extends StatelessWidget {
             Row(
               children: [
                 Image.asset(
-                  'assets/images/sparkles.png',
+                  'assets/sparkles.png',
                   width: 80,
                   height: 100,
                 ),

@@ -20,7 +20,7 @@ class HoleInput extends StatefulWidget {
 }
 
 class _HoleInputState extends State<HoleInput> {
-  final List<String> players = ['Player 1', 'Player 2', 'Player 3', 'Player 4'];
+  final List<String> players = ['홍길동', '김철수', '신형만', '거북이'];
   late List<TextEditingController> scoreControllers;
 
   @override
@@ -194,8 +194,17 @@ class _HoleInputState extends State<HoleInput> {
     if (teamType == 0) {
       // 개인전
       int winnerIndex = indices.reduce((a, b) => scores[a][widget.holeIndex] < scores[b][widget.holeIndex] ? a : b);
+      if(scores[indices[0]][widget.holeIndex] == scores[indices[1]][widget.holeIndex] &&
+      scores[indices[0]][widget.holeIndex] == scores[indices[2]][widget.holeIndex] &&
+      scores[indices[0]][widget.holeIndex] == scores[indices[3]][widget.holeIndex]){
+        for(int i=0;i<4;i++){
+          teamColorsForHole[indices[i]] = Colors.green;
+        }
+      }
+      else{
       for (int i = 0; i < 4; i++) {
         teamColorsForHole[indices[i]] = (i == winnerIndex) ? Colors.red : Colors.white;
+        }
       }
     } else if (teamType == 1) {
       // 2대2 팀
@@ -206,7 +215,15 @@ class _HoleInputState extends State<HoleInput> {
         teamColorsForHole[indices[1]] = Colors.red;
         teamColorsForHole[indices[2]] = Colors.blue;
         teamColorsForHole[indices[3]] = Colors.blue;
-      } else {
+      }
+      else if (team1Score == team2Score) {
+        teamColorsForHole[indices[0]] = Colors.lightGreen;
+        teamColorsForHole[indices[1]] = Colors.lightGreen;
+        teamColorsForHole[indices[2]] = Colors.green;
+        teamColorsForHole[indices[3]] = Colors.green;
+      }
+
+      else {
         teamColorsForHole[indices[0]] = Colors.blue;
         teamColorsForHole[indices[1]] = Colors.blue;
         teamColorsForHole[indices[2]] = Colors.red;
@@ -223,7 +240,14 @@ class _HoleInputState extends State<HoleInput> {
         teamColorsForHole[indices[1]] = Colors.red;
         teamColorsForHole[indices[2]] = Colors.red;
         teamColorsForHole[indices[3]] = Colors.blue;
-      } else {
+      }
+      else if (team3Score == team1Score) {
+        teamColorsForHole[indices[0]] = Colors.green;
+        teamColorsForHole[indices[1]] = Colors.green;
+        teamColorsForHole[indices[2]] = Colors.green;
+        teamColorsForHole[indices[3]] = Colors.lightGreen;
+      }
+      else {
         teamColorsForHole[indices[0]] = Colors.blue;
         teamColorsForHole[indices[1]] = Colors.blue;
         teamColorsForHole[indices[2]] = Colors.blue;
