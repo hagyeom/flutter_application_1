@@ -4,6 +4,7 @@
 */
 // 선수 등록
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/golf_score_app/screens/hole_input.dart';
 import 'package:logging/logging.dart';
 
 class RegisterPlayers extends StatefulWidget {
@@ -68,6 +69,10 @@ class _RegisterPlayersState extends State<RegisterPlayers> {
             ElevatedButton(
               onPressed: () {
                 _savePlayerData();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HoleInput(holeIndex: 0)),
+                );
                 // 등록 완료 버튼 눌렀을 때의 동작 추가
               },
               style: ElevatedButton.styleFrom(

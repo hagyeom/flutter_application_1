@@ -107,7 +107,9 @@ class _HoleInputState extends State<HoleInput> {
                 ],
               ),
             ),
-            Row(children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
               ElevatedButton(
                 onPressed: () {
                   setState(() {
@@ -119,6 +121,7 @@ class _HoleInputState extends State<HoleInput> {
                 },
                 child: Text('개인전'),
               ),
+              SizedBox(width: 10,),
               ElevatedButton(
                 onPressed: () {
                   setState(() {
@@ -130,7 +133,8 @@ class _HoleInputState extends State<HoleInput> {
                 },
                 child: Text('2:2'),
               ),
-              ElevatedButton(
+                SizedBox(width: 10,),
+                ElevatedButton(
                 onPressed: () {
                   setState(() {
                     teamType = 2;
@@ -143,6 +147,7 @@ class _HoleInputState extends State<HoleInput> {
               ),
             ],
             ),
+            SizedBox(height: 10,),
             ElevatedButton(
               onPressed: () {
                 setState(() {
