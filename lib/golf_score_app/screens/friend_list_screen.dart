@@ -4,7 +4,7 @@ import 'package:flutter_application_1/golf_score_app/models/member.dart';
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
 }
 
 class FriendList extends StatefulWidget {
-  const FriendList({Key? key}) : super(key: key);
+  const FriendList({super.key});
 
   @override
   _FriendList createState() => _FriendList();
@@ -30,10 +30,10 @@ class _FriendList extends State<FriendList> {
       id: 'hong123@gmail.com',
       pw: 'password',
       memberCode: '0000',
-      totalHoles: 18,
-      wins: 5,
-      losses: 10,
-      draws: 3,
+      totalHoles: 90,
+      wins: 39,
+      losses: 34,
+      draws: 17,
       friends: ['김철수', '거북이', '두루미', '봉미선', '신짱구', '신형만'],
     ),
     Member(
@@ -134,6 +134,7 @@ class _FriendList extends State<FriendList> {
   }
 
   //친구 목록 추가
+  //친구 목록 추가
   TextEditingController _codeController = TextEditingController();
   void _performActionWithCode(String code) {
     Member? foundMember;
@@ -145,17 +146,27 @@ class _FriendList extends State<FriendList> {
     }
     // 회원을 찾은 경우
     if (foundMember != null) {
-      setState(() {
-        // 현재 사용자의 친구 목록에 찾은 회원 이름 추가 지금은 홍길동이라서...
-        members.firstWhere((m) => m.name == '홍길동').friends.add(foundMember!.name);
-        _sortFriendsList();
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('${foundMember.name}가 친구 목록에 추가되었습니다.'),
-          duration: Duration(seconds: 2),
-        ),
-      );
+      // 이미 친구 목록에 있는지 확인
+      if (members.firstWhere((m) => m.name == '홍길동').friends.contains(foundMember.name)) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${foundMember.name}는 이미 친구로 설정되어있습니다.'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      } else {
+        setState(() {
+          // 현재 사용자의 친구 목록에 찾은 회원 이름 추가 지금은 홍길동이라서...
+          members.firstWhere((m) => m.name == '홍길동').friends.add(foundMember!.name);
+          _sortFriendsList();
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${foundMember.name}가 친구 목록에 추가되었습니다.'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
     } else {
       // 회원을 찾지 못한 경우
       ScaffoldMessenger.of(context).showSnackBar(
@@ -301,7 +312,7 @@ class _FriendList extends State<FriendList> {
                     left: 28,
                     child: Row(
                       children: [
-                        Text(
+                        const Text(
                           '친구',
                           style: TextStyle(fontSize: 12),
                         ),
@@ -408,6 +419,9 @@ class _FriendList extends State<FriendList> {
             Container(
               height: 100,
               alignment: Alignment.centerRight,
+              decoration: BoxDecoration(
+                color: Color(0xFFEFEEEE),
+              ),
               child: Container(
                 margin: EdgeInsets.only(right: 21),
                 child: ElevatedButton(
@@ -467,9 +481,6 @@ class _FriendList extends State<FriendList> {
                     ),
                   ),
                 ),
-              ),
-              decoration: BoxDecoration(
-                color: Color(0xFFEFEEEE),
               ),
             ),
           ],

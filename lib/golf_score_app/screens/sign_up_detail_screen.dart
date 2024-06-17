@@ -1,44 +1,54 @@
-/*
-작성자: 윤하겸
-작성일: 2024-05-21
-*/
-// 회원가입 2
-// 회원가입 1에서 모두 동의를 누른 뒤 다음 버튼을 누르면 넘어가는 페이지
-// sign_up_detail_screen.dart
+// sign_up_detail.screen.dart
+// 회원가입페이지 2
+// 회원가입을 위한 이름과 전화번호를 입력받는 페이지
 // sign_up_detail_screen.dart
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'sign_up_email_screen.dart';
 
 class SignUpDetailScreen extends StatefulWidget {
-  const SignUpDetailScreen({super.key});
+  const SignUpDetailScreen({Key? key});
 
   @override
-  SignUpDetailScreenState createState() => SignUpDetailScreenState();
+  _SignUpDetailScreenState createState() => _SignUpDetailScreenState();
 }
 
-class SignUpDetailScreenState extends State<SignUpDetailScreen> {
+class _SignUpDetailScreenState extends State<SignUpDetailScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+  bool _isButtonEnabled = false;
 
-  Future<void> _saveName(String name) async {
+  @override
+  void initState() {
+    super.initState();
+    nameController.addListener(_checkIfFieldsAreFilled);
+    phoneController.addListener(_checkIfFieldsAreFilled);
+  }
+
+  void _checkIfFieldsAreFilled() {
+    setState(() {
+      _isButtonEnabled = nameController.text.isNotEmpty && phoneController.text.isNotEmpty;
+    });
+  }
+
+  Future<void> _saveNameAndPhone(String name, String phone) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('userName', name);
+    await prefs.setString('userPhone', phone);
   }
 
   void _onNextButtonPressed() async {
-    await _saveName(nameController.text);
+    if (_isButtonEnabled) {
+      await _saveNameAndPhone(nameController.text, phoneController.text);
 
-    if (mounted) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SignUpEmailScreen(
-            name: nameController.text,
-            phoneNumber: phoneController.text,
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SignUpEmailScreen(),
           ),
-        ),
-      );
+        );
+      }
     }
   }
 
@@ -88,18 +98,18 @@ class SignUpDetailScreenState extends State<SignUpDetailScreen> {
             ),
             const Spacer(),
             ElevatedButton(
-              onPressed: _onNextButtonPressed,
+              onPressed: _isButtonEnabled ? _onNextButtonPressed : null,
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
-                backgroundColor: Color(0xFFB9CA98), // 텍스트 색상
-                minimumSize: const Size(double.infinity, 56), // 버튼 크기
+                backgroundColor: _isButtonEnabled ? Colors.lightGreen : Colors.grey, // 텍스트 색상
+                minimumSize: const Size(double.infinity, 50), // 버튼 크기
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
               child: const Text('다음'),
             ),
-            SizedBox(height: 50,)
+            const SizedBox(height: 50,)
           ],
         ),
       ),

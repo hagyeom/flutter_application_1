@@ -4,21 +4,26 @@
 */
 // 회원가입 완료
 // 회원가입 완료 화면 한 번 클릭 시 로그인 화면으로 돌아감
+// sign_up_complete_screen.dart
 import 'package:flutter/material.dart';
 import 'login_screen.dart'; // Import the login screen
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpCompleteScreen extends StatelessWidget {
-  const SignUpCompleteScreen({super.key});
+  final String memberCode;
+
+  const SignUpCompleteScreen({Key? key, required this.memberCode}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    _saveUserData(); // Save user data when completing sign up
     return Scaffold(
       body: GestureDetector(
         onTap: () {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const LoginScreen()),
-            (Route<dynamic> route) => false,
+                (Route<dynamic> route) => false,
           );
         },
         child: Container(
@@ -55,5 +60,10 @@ class SignUpCompleteScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _saveUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('memberCode', memberCode);
   }
 }

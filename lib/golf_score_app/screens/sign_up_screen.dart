@@ -3,6 +3,7 @@
 작성일: 2024-05-21
 */
 // 회원가입 1
+// sign_up_screen.dart
 import 'package:flutter/material.dart';
 import 'sign_up_detail_screen.dart';
 

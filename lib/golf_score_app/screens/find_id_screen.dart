@@ -1,119 +1,146 @@
-/*
-작성자: 윤하겸
-작성일: 2024-05-23
-*/
-// 아이디 찾기
-// 아이디 찾기 버튼 누를 시 '사용하신 아이디는' 팝업창을 띄움
+// find_id_screen.dart
+// 이름 및 전화번호 입력 후 아이디 찾기 버튼 누르면 그에 해당하는 아이디가 버튼 밑에 뜸
+// 팝업창 형식이 아님...
+// 아이디 찾았다는 메시지를 클릭하면 find_password_screen.dart로 이동
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/golf_score_app/screens/find_password_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'find_password_screen.dart'; // Import FindPasswordScreen
 
-class FindIDScreen extends StatelessWidget {
-  const FindIDScreen({super.key});
+class FindIdScreen extends StatefulWidget {
+  const FindIdScreen({Key? key}) : super(key: key);
 
-  void _showIDDialog(BuildContext context, String userId) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                '사용하신 아이디는',
-                style: TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                userId,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
-                ),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFCBD7B5),
-                ),
-                child: const Text('확인'),
-              ),
-            ],
-          ),
-        );
-      },
-    );
+  @override
+  _FindIdScreenState createState() => _FindIdScreenState();
+}
+
+class _FindIdScreenState extends State<FindIdScreen> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  bool _isButtonEnabled = false;
+  String? _foundEmail;
+  bool _showPasswordButton = false;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController.addListener(_checkIfFieldsAreFilled);
+    phoneController.addListener(_checkIfFieldsAreFilled);
+  }
+
+  void _checkIfFieldsAreFilled() {
+    setState(() {
+      _isButtonEnabled = nameController.text.isNotEmpty && phoneController.text.isNotEmpty;
+    });
+  }
+
+  Future<void> _findEmail() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? storedName = prefs.getString('userName');
+    final String? storedPhone = prefs.getString('userPhone');
+    final String? storedEmail = prefs.getString('userEmail');
+
+    if (storedName == nameController.text && storedPhone == phoneController.text) {
+      setState(() {
+        _foundEmail = storedEmail;
+        _showPasswordButton = true; // Show the button to proceed to FindPasswordScreen
+      });
+    } else {
+      setState(() {
+        _foundEmail = null;
+        _showPasswordButton = false; // Hide the button if no matching ID is found
+      });
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Error'),
+          content: const Text('No matching ID found. Please check your details and try again.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    phoneController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('아이디/비밀번호 찾기'),
-          bottom: TabBar(
-            onTap: (index) {
-              if (index == 1) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const FindPasswordScreen(),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Find ID'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: GestureDetector(
+        onTap: () {
+          // Navigate to FindPasswordScreen when the button is shown and the screen is tapped
+          if (_showPasswordButton) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const FindPasswordScreen()),
+            );
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Please enter your name and phone number to find your ID.',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: nameController,
+                decoration: const InputDecoration(
+                  labelText: 'Enter your name',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: phoneController,
+                decoration: const InputDecoration(
+                  labelText: 'Enter your phone number (without -)',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const Spacer(),
+              ElevatedButton(
+                onPressed: _isButtonEnabled ? _findEmail : null,
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: _isButtonEnabled ? Colors.lightGreen : Colors.grey,
+                  minimumSize: const Size(double.infinity, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                );
-              }
-            },
-            tabs: const [
-              Tab(text: '아이디 찾기'),
-              Tab(text: '비밀번호 찾기'),
+                ),
+                child: const Text('Find ID'),
+              ),
+              const SizedBox(height: 16),
+              if (_foundEmail != null && _showPasswordButton)
+                Text(
+                  'Your ID is: $_foundEmail',
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.green),
+                ),
+              const SizedBox(height: 50),
             ],
           ),
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                '회원 정보에 입력한 본인 정보로 아이디를 찾습니다.',
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  labelText: '사용하신 이름을 입력해주세요.',
-                ),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  labelText: '사용하신 전화번호를 입력해주세요.',
-                  hintText: '전화번호 입력 ( - 제외 )',
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  // 예시: 실제로는 서버와 통신하여 아이디를 가져와야 합니다.
-                  String userId = "jkim@tu.ac.kr";
-                  _showIDDialog(context, userId);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFCBD7B5),
-                ),
-                child: const Center(child: Text('아이디 찾기')),
-              ),
-            ),
-          ],
         ),
       ),
     );

@@ -1,16 +1,10 @@
-/*
-작성자: 윤하겸
-작성일: 2024-05-22
-*/
-// 회원가입 4
-// 로그인에 사용할 비밀번호를 입력받는 회원가입 진행 페이지
-// sign_up_password_screen.dart
-// sign_up_password_screen.dart
 // sign_up_password_screen.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/golf_score_app/models/user.dart';
+import 'package:flutter_application_1/golf_score_app/models/member.dart';
 import 'package:flutter_application_1/golf_score_app/models/user_repository.dart';
 import 'package:flutter_application_1/golf_score_app/screens/sign_up_complete_screen.dart';
+import 'package:flutter_application_1/golf_score_app/models/utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpPasswordScreen extends StatefulWidget {
   final String name;
@@ -18,11 +12,11 @@ class SignUpPasswordScreen extends StatefulWidget {
   final String email;
 
   const SignUpPasswordScreen({
-    super.key,
+    Key? key,
     required this.name,
     required this.phoneNumber,
     required this.email,
-  });
+  }) : super(key: key);
 
   @override
   SignUpPasswordScreenState createState() => SignUpPasswordScreenState();
@@ -31,28 +25,50 @@ class SignUpPasswordScreen extends StatefulWidget {
 class SignUpPasswordScreenState extends State<SignUpPasswordScreen> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
-      TextEditingController();
+  TextEditingController();
   bool isPasswordVisible = false;
   bool isConfirmPasswordVisible = false;
+  bool _isButtonEnabled = false;
 
-  void _completeSignUp() {
+  @override
+  void initState() {
+    super.initState();
+    passwordController.addListener(_checkIfPasswordsAreFilled);
+    confirmPasswordController.addListener(_checkIfPasswordsAreFilled);
+  }
+
+  void _checkIfPasswordsAreFilled() {
+    setState(() {
+      _isButtonEnabled = passwordController.text.isNotEmpty &&
+          confirmPasswordController.text.isNotEmpty;
+    });
+  }
+
+  void _completeSignUp() async {
     if (passwordController.text == confirmPasswordController.text) {
-      User newUser = User(
+      String memberCode = generateMemberCode();
+
+      Member newMember = Member(
         name: widget.name,
         phoneNumber: widget.phoneNumber,
-        email: widget.email,
-        password: passwordController.text,
+        id: widget.email,
+        pw: passwordController.text,
+        memberCode: memberCode,
       );
 
-      // Save the user using UserRepository
-      UserRepository userRepository = UserRepository();
-      userRepository.addUser(newUser);
+      // Save the member using MemberRepository
+      MemberRepository memberRepository = MemberRepository();
+      memberRepository.addMember(newMember);
+
+      // Save password to SharedPreferences
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('password', passwordController.text);
 
       // Navigate to the complete screen
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const SignUpCompleteScreen(),
+          builder: (context) => SignUpCompleteScreen(memberCode: memberCode),
         ),
       );
     } else {
@@ -71,6 +87,13 @@ class SignUpPasswordScreenState extends State<SignUpPasswordScreen> {
         ),
       );
     }
+  }
+
+  @override
+  void dispose() {
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -106,7 +129,9 @@ class SignUpPasswordScreenState extends State<SignUpPasswordScreen> {
                 labelText: '비밀번호 입력',
                 suffixIcon: IconButton(
                   icon: Icon(
-                    isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    isPasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off,
                   ),
                   onPressed: () {
                     setState(() {
@@ -131,7 +156,8 @@ class SignUpPasswordScreenState extends State<SignUpPasswordScreen> {
                   ),
                   onPressed: () {
                     setState(() {
-                      isConfirmPasswordVisible = !isConfirmPasswordVisible;
+                      isConfirmPasswordVisible =
+                      !isConfirmPasswordVisible;
                     });
                   },
                 ),
@@ -141,11 +167,14 @@ class SignUpPasswordScreenState extends State<SignUpPasswordScreen> {
             const SizedBox(height: 16.0),
             Center(
               child: ElevatedButton(
-                onPressed: _completeSignUp,
+                onPressed:
+                _isButtonEnabled ? _completeSignUp : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFCBD7B5), // Background color
+                  backgroundColor: _isButtonEnabled
+                      ? const Color(0xFFCBD7B5)
+                      : Colors.grey, // Background color
                   minimumSize:
-                      const Size(double.infinity, 48), // Full width button
+                  const Size(double.infinity, 48), // Full width button
                 ),
                 child: const Text('다음'),
               ),

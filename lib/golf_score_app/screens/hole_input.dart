@@ -2,7 +2,6 @@ import 'app_bar_public.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'score_card.dart';
-import 'package:flutter_application_1/golf_score_app/models/player.dart';
 
 
 List<int> pars = List.filled(18, 4); // 초기값은 모두 4로 임시 설정
