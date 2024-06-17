@@ -49,20 +49,81 @@ class MyPageScreenState extends State<MyPageScreen> {
   Widget build(BuildContext context) {
     // 기본 Member 객체 생성
     final member = Member(
-      name: _userName,
+      name: '홍길동',
       phoneNumber: '01000000000',
       id: 'hong123@gmail.com',
       pw: 'password',
       memberCode: '0000',
-      totalHoles: 18,
-      wins: 5,
-      losses: 10,
-      draws: 3,
+      totalHoles: 90,
+      wins: 39,
+      losses: 34,
+      draws: 17,
       friends: ['김철수', '거북이', '두루미', '봉미선', '신짱구', '신형만'],
     );
 
-    // 빈 게임 기록 리스트 생성
-    final List<WLDcard> gameRecords = [];
+    final List<WLDcard> gameRecords = [
+      WLDcard(
+        date: '2024-06-10',
+        players: [
+          Player(name: '홍길동', wins: 16, holes: 66),
+          Player(name: '신형만', wins: 2, holes: 80),
+          Player(name: '거북이', wins: 0, holes: 96),
+          Player(name: '두루미', wins: 0, holes: 100),
+        ],
+        wins: 16,
+        losses: 2,
+        draws: 0,
+      ),
+      WLDcard(
+        date: '2024-06-01',
+        players: [
+          Player(name: '홍길동', wins: 12, holes: 70),
+          Player(name: '봉미선', wins: 2, holes: 78),
+          Player(name: '신짱구', wins: 2, holes: 78),
+          Player(name: '신형만', wins: 0, holes: 90),
+        ],
+        wins: 12,
+        losses: 2,
+        draws: 4,
+      ),
+      WLDcard(
+        date: '2024-05-30',
+        players: [
+          Player(name: '홍길동', wins: 0, holes: 85),
+          Player(name: '김철수', wins: 6, holes: 75),
+          Player(name: '신짱구', wins: 9, holes: 68),
+          Player(name: '봉미선', wins: 1, holes: 80),
+        ],
+        wins: 0,
+        losses: 16,
+        draws: 2,
+      ),
+      WLDcard(
+        date: '2024-03-27',
+        players: [
+          Player(name: '홍길동', wins: 3, holes: 80),
+          Player(name: '김철수', wins: 5, holes: 74),
+          Player(name: '신짱구', wins: 1, holes: 85),
+          Player(name: '신형만', wins: 1, holes: 85),
+        ],
+        wins: 3,
+        losses: 5,
+        draws: 10,
+      ),
+      WLDcard(
+        date: '2024-01-20',
+        players: [
+          Player(name: '홍길동', wins: 8, holes: 75),
+          Player(name: '두루미', wins: 10, holes: 72),
+          Player(name: '봉미선', wins: 5, holes: 80),
+          Player(name: '신형만', wins: 5, holes: 88),
+        ],
+        wins: 8,
+        losses: 9,
+        draws: 1,
+      ),
+      // 추가 경기 기록...
+    ];
 
     return Scaffold(
       appBar: AppBar(
