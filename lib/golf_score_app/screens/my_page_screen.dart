@@ -49,7 +49,7 @@ class MyPageScreenState extends State<MyPageScreen> {
   Widget build(BuildContext context) {
     // 기본 Member 객체 생성
     final member = Member(
-      name: '홍길동',
+      name: _userName,
       phoneNumber: '01000000000',
       id: 'hong123@gmail.com',
       pw: 'password',

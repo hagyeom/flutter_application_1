@@ -27,7 +27,7 @@ class SignUpCompleteScreen extends StatelessWidget {
           );
         },
         child: Container(
-          color: const Color(0xFFCBD7B5), // Background color
+          color: const Color(0xFFBFD98F), // Background color
           child: const Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

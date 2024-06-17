@@ -164,17 +164,17 @@ class SignUpPasswordScreenState extends State<SignUpPasswordScreen> {
                 hintText: '비밀번호 일치',
               ),
             ),
-            const SizedBox(height: 16.0),
+            const SizedBox(height: 100),
             Center(
               child: ElevatedButton(
-                onPressed:
-                _isButtonEnabled ? _completeSignUp : null,
+                onPressed: _isButtonEnabled ? _completeSignUp : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: _isButtonEnabled
-                      ? const Color(0xFFCBD7B5)
-                      : Colors.grey, // Background color
-                  minimumSize:
-                  const Size(double.infinity, 48), // Full width button
+                  foregroundColor: Colors.white,
+                  backgroundColor: _isButtonEnabled ? const Color(0xFFB9CA98) : Colors.grey,
+                  minimumSize: const Size(double.infinity, 56),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
                 child: const Text('다음'),
               ),
