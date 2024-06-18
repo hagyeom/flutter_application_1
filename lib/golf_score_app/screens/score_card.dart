@@ -16,6 +16,7 @@ class ScoreCard extends StatelessWidget {
       appBar: AppBar(
         title: Text('스코어 카드'),
       ),
+      backgroundColor: Color(0xFFEFEEEE), // 앱 내부 배경색 설정
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
@@ -46,7 +47,7 @@ class ScoreCard extends StatelessWidget {
                   borderRadius: BorderRadius.all(
                     Radius.circular(20),
                   ),
-                  // 컨테이너의 그림자S
+                  color:Colors.white,
                 ),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
