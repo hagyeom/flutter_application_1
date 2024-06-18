@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/golf_score_app/models/member.dart';
+import 'package:flutter_application_1/golf_score_app/screens/first_page.dart';
+import 'package:flutter_application_1/golf_score_app/screens/login_screen.dart';
 
 void main() => runApp(const MyApp());
 
@@ -183,6 +185,12 @@ class _MyInformationState extends State<MyInformation> {
                       child: ElevatedButton(
                         onPressed: () {
                           _deleteMemberData();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const FirstPage(),
+                            ),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFFEFEEEE),
