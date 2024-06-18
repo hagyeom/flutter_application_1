@@ -150,7 +150,7 @@ class _FriendList extends State<FriendList> {
       if (members.firstWhere((m) => m.name == '홍길동').friends.contains(foundMember.name)) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${foundMember.name}는 이미 친구로 설정되어있습니다.'),
+            content: Text('${foundMember.name}은(는) 이미 친구로 설정되어있습니다.'),
             duration: Duration(seconds: 2),
           ),
         );
@@ -162,7 +162,7 @@ class _FriendList extends State<FriendList> {
         });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${foundMember.name}가 친구 목록에 추가되었습니다.'),
+            content: Text('${foundMember.name}이(가) 친구 목록에 추가되었습니다.'),
             duration: Duration(seconds: 2),
           ),
         );
