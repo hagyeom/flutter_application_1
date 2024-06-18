@@ -36,27 +36,89 @@ class ScoreCard extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(16.0),
               child: Container(
+                // 패딩 속성
+                padding: EdgeInsets.all(25),
+                // 마진 속성
+                margin: EdgeInsets.all(25),
+                // 컨테이너 꾸미기
+                decoration: BoxDecoration(
+                  // 컨테이너의 border 모양
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                  // 컨테이너의 그림자S
+                ),
                 child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Text('등수     이름    승  무  패  점수',
+                      style: TextStyle(fontWeight: FontWeight.bold),),
+                    SizedBox(height: 10,),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset('assets/1등.png'),
+                        SizedBox(width: 10),
                         Text(players[0]),
+                        SizedBox(width: 10),
+                        Text('5'),
+                        SizedBox(width: 12),
+                        Text('5'),
+                        SizedBox(width: 12),
+                        Text('5'),
+                        SizedBox(width: 16),
+                        Text('5'),
                       ],
                     ),
+                    SizedBox(height: 10),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset('assets/2등.png'),
+                        SizedBox(width: 10),
+                        Text(players[1]),
+                        SizedBox(width: 10),
+                        Text('5'),
+                        SizedBox(width: 12),
+                        Text('5'),
+                        SizedBox(width: 12),
+                        Text('5'),
+                        SizedBox(width: 16),
+                        Text('5'),
                       ],
                     ),
+                    SizedBox(height: 10),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset('assets/3등.png'),
+                        SizedBox(width: 10),
+                        Text(players[2]),
+                        SizedBox(width: 10),
+                        Text('5'),
+                        SizedBox(width: 12),
+                        Text('5'),
+                        SizedBox(width: 12),
+                        Text('5'),
+                        SizedBox(width: 16),
+                        Text('5'),
                       ],
                     ),
+                    SizedBox(height: 10),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset('assets/4등.png'),
+                        SizedBox(width: 10),
+                        Text(players[3]),
+                        SizedBox(width: 10),
+                        Text('5'),
+                        SizedBox(width: 12),
+                        Text('5'),
+                        SizedBox(width: 12),
+                        Text('5'),
+                        SizedBox(width: 16),
+                        Text('5'),
                       ],
                     ),
                   ],
