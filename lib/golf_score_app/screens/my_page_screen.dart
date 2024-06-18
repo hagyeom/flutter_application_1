@@ -162,7 +162,12 @@ class MyPageScreenState extends State<MyPageScreen> {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.lightGreen,
+                foregroundColor: Colors.white,
+                backgroundColor: const Color(0xFFB9CA98),
+                minimumSize: const Size(double.infinity, 56),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
               child: const Text('경기하기'),
             ),

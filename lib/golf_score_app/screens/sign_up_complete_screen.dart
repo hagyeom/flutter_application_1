@@ -1,12 +1,5 @@
-/*
-작성자: 윤하겸
-작성일: 2024-05-22
-*/
-// 회원가입 완료
-// 회원가입 완료 화면 한 번 클릭 시 로그인 화면으로 돌아감
-// sign_up_complete_screen.dart
 import 'package:flutter/material.dart';
-import 'login_screen.dart'; // Import the login screen
+import 'login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpCompleteScreen extends StatelessWidget {
@@ -17,6 +10,9 @@ class SignUpCompleteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _saveUserData(); // Save user data when completing sign up
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double imageWidth = screenWidth - 300;
+
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -28,29 +24,28 @@ class SignUpCompleteScreen extends StatelessWidget {
         },
         child: Container(
           color: const Color(0xFFBFD98F), // Background color
-          child: const Center(
+          child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.golf_course,
-                  size: 100,
-                  color: Colors.white,
+                Image.asset(
+                  'assets/golfimage.jpg',
+                  width: imageWidth,
                 ),
-                SizedBox(height: 24),
-                Text(
+                const SizedBox(height: 24),
+                const Text(
                   '회원가입을 축하합니다',
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(height: 16),
-                Text(
+                const SizedBox(height: 16),
+                const Text(
                   '즐거운 골프 스포츠를 즐기세요!',
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 18,
                     color: Colors.white,
                   ),
                 ),
