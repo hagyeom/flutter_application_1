@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'hole_input.dart';
 
@@ -47,81 +45,27 @@ class ScoreCard extends StatelessWidget {
                   borderRadius: BorderRadius.all(
                     Radius.circular(20),
                   ),
-                  color:Colors.white,
+                  color: Colors.white,
                 ),
                 child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('등수     이름    승  무  패  점수',
-                      style: TextStyle(fontWeight: FontWeight.bold),),
-                    SizedBox(height: 10,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset('assets/1등.png'),
-                        SizedBox(width: 10),
-                        Text(players[0]),
-                        SizedBox(width: 10),
-                        Text('5'),
-                        SizedBox(width: 12),
-                        Text('5'),
-                        SizedBox(width: 12),
-                        Text('5'),
-                        SizedBox(width: 16),
-                        Text('5'),
-                      ],
+                    Text(
+                      '이름    승  무  패  점수',
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset('assets/2등.png'),
-                        SizedBox(width: 10),
-                        Text(players[1]),
-                        SizedBox(width: 10),
-                        Text('5'),
-                        SizedBox(width: 12),
-                        Text('5'),
-                        SizedBox(width: 12),
-                        Text('5'),
-                        SizedBox(width: 16),
-                        Text('5'),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset('assets/3등.png'),
-                        SizedBox(width: 10),
-                        Text(players[2]),
-                        SizedBox(width: 10),
-                        Text('5'),
-                        SizedBox(width: 12),
-                        Text('5'),
-                        SizedBox(width: 12),
-                        Text('5'),
-                        SizedBox(width: 16),
-                        Text('5'),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset('assets/4등.png'),
-                        SizedBox(width: 10),
-                        Text(players[3]),
-                        SizedBox(width: 10),
-                        Text('5'),
-                        SizedBox(width: 12),
-                        Text('5'),
-                        SizedBox(width: 12),
-                        Text('5'),
-                        SizedBox(width: 16),
-                        Text('5'),
-                      ],
-                    ),
+                    for (int i = 0; i < players.length; i++)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(players[i]),
+                          Text('${playerStats[i].wins}',style: TextStyle(color: Colors.red),),
+                          Text('${playerStats[i].draws}',style: TextStyle(color: Colors.green),),
+                          Text('${playerStats[i].losses}',style: TextStyle(color: Colors.blue),),
+                          Text('${playerStats[i].totalStrokes}'),
+                        ],
+                      ),
                   ],
                 ),
               ),

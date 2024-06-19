@@ -9,6 +9,13 @@ List<bool> holeCompleted = List.filled(18, false); // 각 홀의 입력 완료 �
 List<List<Color>> teamColors = List.generate(
     18, (_) => List.filled(4, Colors.white)); // 각 홀의 팀 색상을 추적하는 리스트
 int teamType = 4;
+class PlayerStats { //승무패
+  int wins = 0;
+  int draws = 0;
+  int losses = 0;
+  int totalStrokes = 0;
+}
+List<PlayerStats> playerStats = List.generate(4, (_) => PlayerStats()); //승무패 리스트
 
 class HoleInput extends StatefulWidget {
   final int holeIndex;
@@ -231,11 +238,17 @@ class _HoleInputState extends State<HoleInput> {
               scores[indices[3]][widget.holeIndex]) {
         for (int i = 0; i < 4; i++) {
           teamColorsForHole[indices[i]] = Colors.green;
+          playerStats[indices[i]].draws++;
         }
       } else {
         for (int i = 0; i < 4; i++) {
           teamColorsForHole[indices[i]] =
               (i == winnerIndex) ? Colors.red : Colors.white;
+          if (i == winnerIndex) {
+            playerStats[indices[i]].wins++;
+          } else {
+            playerStats[indices[i]].losses++;
+          }
         }
       }
     } else if (teamType == 1) {
@@ -249,16 +262,28 @@ class _HoleInputState extends State<HoleInput> {
         teamColorsForHole[indices[1]] = Colors.red;
         teamColorsForHole[indices[2]] = Colors.blue;
         teamColorsForHole[indices[3]] = Colors.blue;
+        playerStats[indices[0]].wins++;
+        playerStats[indices[1]].wins++;
+        playerStats[indices[2]].losses++;
+        playerStats[indices[3]].losses++;
       } else if (team1Score == team2Score) {
         teamColorsForHole[indices[0]] = Colors.lightGreen;
         teamColorsForHole[indices[1]] = Colors.lightGreen;
         teamColorsForHole[indices[2]] = Colors.green;
         teamColorsForHole[indices[3]] = Colors.green;
+        playerStats[indices[0]].draws++;
+        playerStats[indices[1]].draws++;
+        playerStats[indices[2]].draws++;
+        playerStats[indices[3]].draws++;
       } else {
         teamColorsForHole[indices[0]] = Colors.blue;
         teamColorsForHole[indices[1]] = Colors.blue;
         teamColorsForHole[indices[2]] = Colors.red;
         teamColorsForHole[indices[3]] = Colors.red;
+        playerStats[indices[0]].losses++;
+        playerStats[indices[1]].losses++;
+        playerStats[indices[2]].wins++;
+        playerStats[indices[3]].wins++;
       }
     } else if (teamType == 2) {
       // 3대1 팀
@@ -275,21 +300,37 @@ class _HoleInputState extends State<HoleInput> {
         teamColorsForHole[indices[1]] = Colors.red;
         teamColorsForHole[indices[2]] = Colors.red;
         teamColorsForHole[indices[3]] = Colors.blue;
+        playerStats[indices[0]].wins++;
+        playerStats[indices[1]].wins++;
+        playerStats[indices[2]].wins++;
+        playerStats[indices[3]].losses++;
       } else if (team3Score == team1Score) {
         teamColorsForHole[indices[0]] = Colors.green;
         teamColorsForHole[indices[1]] = Colors.green;
         teamColorsForHole[indices[2]] = Colors.green;
         teamColorsForHole[indices[3]] = Colors.lightGreen;
+        playerStats[indices[0]].draws++;
+        playerStats[indices[1]].draws++;
+        playerStats[indices[2]].draws++;
+        playerStats[indices[3]].draws++;
       } else {
         teamColorsForHole[indices[0]] = Colors.blue;
         teamColorsForHole[indices[1]] = Colors.blue;
         teamColorsForHole[indices[2]] = Colors.blue;
         teamColorsForHole[indices[3]] = Colors.red;
+        playerStats[indices[0]].losses++;
+        playerStats[indices[1]].losses++;
+        playerStats[indices[2]].losses++;
+        playerStats[indices[3]].wins++;
       }
     }
 
     teamColors[widget.holeIndex] = teamColorsForHole;
+    for (int i = 0; i < 4; i++) {
+      playerStats[i].totalStrokes += scores[i][widget.holeIndex];
+    }
   }
+
 
   void navigateToNextHole(BuildContext context) {
     int nextHoleIndex = widget.holeIndex + 1;
