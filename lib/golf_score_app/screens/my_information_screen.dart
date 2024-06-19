@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/golf_score_app/models/member.dart';
-import 'package:flutter_application_1/golf_score_app/screens/first_page.dart';
-import 'package:flutter_application_1/golf_score_app/screens/login_screen.dart';
+import 'package:flutter_application_1/golf_score_app/models/member.dart'; // Member 클래스 import
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() => runApp(const MyApp());
+//void main() => runApp(const MyApp());
 
-class MyApp extends StatelessWidget {
+/*class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
@@ -15,10 +14,12 @@ class MyApp extends StatelessWidget {
       home: MyInformation(),
     );
   }
-}
+}*/
 
 class MyInformation extends StatefulWidget {
-  const MyInformation({Key? key}) : super(key: key);
+  const MyInformation({super.key, required this.userName});
+
+  final String userName;
 
   @override
   _MyInformationState createState() => _MyInformationState();
@@ -31,26 +32,34 @@ class _MyInformationState extends State<MyInformation> {
   late TextEditingController _idController;
   late TextEditingController _pwController;
   Member? member;
+  String name = '';
 
   @override
   void initState() {
     super.initState();
-    member = Member(
-      name: '홍길동',
-      phoneNumber: '01000000000',
-      id: 'hong123@gmail.com',
-      pw: 'password',
-      memberCode: '0000',
-      totalHoles: 90,
-      wins: 39,
-      losses: 34,
-      draws: 17,
-      friends: ['김철수', '거북이', '두루미', '봉미선', '신짱구', '신형만'],
-    );
-    _nameController = TextEditingController(text: member!.name);
-    _phoneNumberController = TextEditingController(text: member!.phoneNumber);
-    _idController = TextEditingController(text: member!.id);
-    _pwController = TextEditingController(text: member!.pw);
+    _loadMemberData();
+  }
+
+  Future<void> _loadMemberData() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      member = Member(
+        name: prefs.getString('name') ?? '홍길동',
+        phoneNumber: prefs.getString('phoneNumber') ?? '01000000000',
+        id: prefs.getString('id') ?? 'hong123@gmail.com',
+        pw: prefs.getString('pw') ?? 'password',
+        memberCode: '0000',
+        totalHoles: 90,
+        wins: 39,
+        losses: 34,
+        draws: 17,
+        friends: ['김철수', '거북이', '두루미', '봉미선', '신짱구', '신형만'],
+      );
+      _nameController = TextEditingController(text: member!.name);
+      _phoneNumberController = TextEditingController(text: member!.phoneNumber);
+      _idController = TextEditingController(text: member!.id);
+      _pwController = TextEditingController(text: member!.pw);
+    });
   }
 
   @override
@@ -90,41 +99,42 @@ class _MyInformationState extends State<MyInformation> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('프로필 사진',
-                          style: TextStyle(
-                            fontSize: 18,
-                          )
+                      Text(
+                        '프로필 사진',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
                       ),
                       SizedBox(height: 10),
                       Container(
                         width: 158,
                         height: 41,
                         child: ElevatedButton(
-                            onPressed: () {
-                              // 갤러리에 들어가....?
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFFEFEEEE),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(0),
-                              ),
-                              padding: EdgeInsets.zero,
+                          onPressed: () {
+                            // 갤러리에 들어가....?
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFFEFEEEE),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(0),
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                SizedBox(width: 5),
-                                Icon(Icons.photo_album, color: Colors.black),
-                                SizedBox(width: 9),
-                                Text(
-                                  '편집하기',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                  ),
+                            padding: EdgeInsets.zero,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(width: 5),
+                              Icon(Icons.photo_album, color: Colors.black),
+                              SizedBox(width: 9),
+                              Text(
+                                '편집하기',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
                                 ),
-                              ],
-                            )
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -141,6 +151,7 @@ class _MyInformationState extends State<MyInformation> {
                   _buildLabeledTextField('전화번호', _phoneNumberController, enabled: _isEditingEnabled),
                   _buildLabeledTextField('아이디', _idController, enabled: _isEditingEnabled),
                   _buildLabeledTextField('비밀번호', _pwController, enabled: _isEditingEnabled),
+                  // 회원코드는 편집이 불가능하도록 설정
                   _buildLabeledTextField('회원코드', TextEditingController(text: '0000'), enabled: false),
                 ],
               ),
@@ -185,12 +196,7 @@ class _MyInformationState extends State<MyInformation> {
                       child: ElevatedButton(
                         onPressed: () {
                           _deleteMemberData();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const FirstPage(),
-                            ),
-                          );
+                          Navigator.pop(context); // 이전 화면으로 돌아가기
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFFEFEEEE),
@@ -269,13 +275,13 @@ class _MyInformationState extends State<MyInformation> {
   }
 
   void _updateMemberData() {
+    print('회원 정보가 업데이트되었습니다.');
   }
 
   void _deleteMemberData() {
-    //멤버 데이터 삭제 코드
     setState(() {
       member = null;
     });
-    print('멤버 데이터가 삭제되었습니다.');
+    print('회원 정보가 삭제되었습니다.');
   }
 }
